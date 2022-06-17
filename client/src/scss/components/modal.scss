@@ -1,0 +1,34 @@
+.modal-create-project{
+  @include modal();
+}
+
+.modal-update-project{
+  @include modal();
+}
+
+.modal-single-project{
+  @include modal();
+}
+
+.modal-delete{  
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+  position: absolute;
+  background: white;
+  padding: 1rem;
+  border-radius: 15px;
+  right: 0;
+  transition: all 600ms ease;
+  
+  &.is-active{
+    visibility: visible;
+    opacity: 1;
+    height: 100%;
+    margin-right: 4rem;
+    pointer-events: initial;
+    transition: all 600ms ease;
+  }
+}

@@ -1,0 +1,35 @@
+services:
+  api:
+    container_name: api-hakuna
+    build: ./projet-back
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - WDS_SOCKET_PORT=8000
+      - WATCHPACK_POLLING= true 
+    env_file:
+      - ./projet-back/.env
+    volumes:
+      - ./projet-back:/api
+  
+  db:
+    image: mysql
+    ports: 
+      - 3306:3306
+    env_file:
+      - ./projet-back/.env
+  client-react:
+    container_name: react-hakuna
+    build: ./projet-front
+    environment:
+      - WDS_SOCKET_PORT=3000
+      - WATCHPACK_POLLING=true
+    ports:
+      - 3000:3000
+    depends_on: 
+      - api 
+    volumes: 
+      - ./projet-front:/app-react

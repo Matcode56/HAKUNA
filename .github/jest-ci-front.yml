@@ -1,0 +1,18 @@
+name: jest-ci
+on:
+  push:
+    branches: ["main", "Dev/Flo", "Dev/Margotte", "Dev/Romeo", "Dev/Mat"]
+
+jobs:
+  test-front:
+    runs-on: unbuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install dependancies and Run tests BACKEND
+        run: cd server
+        run: npm i && npm run test
+      - name: Install dependancies and Run tests FRONTEND
+        run: cd client
+        run:  npm i && npm run test
+      

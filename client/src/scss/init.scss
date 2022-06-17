@@ -1,0 +1,62 @@
+/* Basics */
+body{
+  overflow: hidden;
+}
+
+/* Variables */
+// Colors
+
+$lavender: #8188FE;
+$paleyellow: #FDE6A5;
+$fontgray: #424242;
+
+/* Mixins */
+
+@mixin buttons ($background: $lavender, $color: white) {
+  width: fit-content;
+  height: 60px;
+  border-radius: 30px;
+  padding-inline: 2rem;
+  padding-bottom: .2rem;
+  margin-top: 1rem;
+  font-size: 32px;
+  background-color: $background;
+  color: $color;
+}
+
+@mixin modal ($background: $paleyellow) {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+  position: absolute;
+  background-color: $background;
+  top: 50%;
+  left: 50%;
+  width: 93%;
+  margin-left: 2%;
+  border-radius: 30px;
+  border: 2px solid black;
+  transform: translate(-50%, -50%);
+  transition: all 600ms ease;
+  
+  &.is-active{
+    visibility: visible;
+    opacity: 1;
+    height: 88%;
+    margin-top: 2.5rem;
+    pointer-events: initial;
+    transition: all 600ms ease;
+  }
+
+  .close-buttons{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    img{
+      width: 40px;
+    }
+  }
+}

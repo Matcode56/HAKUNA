@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root{
+  --lavender: #8188FE;
+  --paleyellow: #FDE6A5;
+  --fontgray : #424242;
+}
+
+@font-face {
+  font-family: "title";
+  src: url(../public/fonts/Rubik-Regular.ttf);
+}
+@font-face {
+  font-family: "subtitle";
+  src: url(../public/fonts/Heebo-Regular.ttf);
+}
+@font-face {
+  font-family: "paragraph";
+  src: url(../public/fonts/Metrophobic-Regular.ttf);
+}
+
+body{
+  background-color: #EDECEC;
+}
+
+
+
