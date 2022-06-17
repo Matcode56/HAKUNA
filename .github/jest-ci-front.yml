@@ -10,9 +10,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Install dependancies and Run tests BACKEND
-        run: cd server
-        run: npm i && npm run test
+        run: cd server && npm i && npm run test
       - name: Install dependancies and Run tests FRONTEND
-        run: cd client
-        run:  npm i && npm run test
-      
+        run: cd client npm i && npm run test
