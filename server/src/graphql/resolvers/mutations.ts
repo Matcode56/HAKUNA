@@ -68,7 +68,7 @@ export const Mutation = {
   },
 
   updateUser: async(parent: any, args:{id: String, firstname: string, lastname: string, email: string, password: string, tel: number})=>{
-    // if(args.email){
+  
       console.log(args);
       const user= await prisma.users.findUnique({where: {id: Number(args.id)}});
       
