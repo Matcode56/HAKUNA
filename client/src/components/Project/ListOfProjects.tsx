@@ -23,6 +23,7 @@ export const ListOfProjects = () => {
     ) : error ? (
       <p>Error : {error?.message}</p>
     ) : (
+      <>
       <div className="projects-list mx-auto w-full">
       {data.getProjects.map(
         (project: {
@@ -106,6 +107,7 @@ export const ListOfProjects = () => {
         )
       )}
     </div>
+    </>
     )}
     </>
   );

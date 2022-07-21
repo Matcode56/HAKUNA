@@ -11,11 +11,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
 import "./scss/style.scss";
+import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import Navbar from "./components/Navbar";
 import { Projects } from "./components/Project/Projects";
-import reportWebVitals from "./reportWebVitals";
 import { ProjectProvider } from "./hooks/context";
+import { Login }  from "./components/Login";
+import { Register } from "./components/Register";
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -47,8 +49,10 @@ ReactDOM.render(
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Login />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/home" element={<App />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </BrowserRouter>
       </ProjectProvider>
