@@ -4,9 +4,11 @@ import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
+  createHttpLink
   // HttpLink,
   // from,
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
@@ -16,6 +18,7 @@ import Navbar from "./components/Navbar";
 import { Projects } from "./components/Project/Projects";
 import reportWebVitals from "./reportWebVitals";
 import { ProjectProvider } from "./hooks/context";
+import { Login }  from "./components/Login";
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -34,9 +37,26 @@ import { ProjectProvider } from "./hooks/context";
 //     new HttpLink({ uri: "http://localhost:8080/graphql" }),
 //   ]);
 
+const httpLink = createHttpLink({
+  uri: "http://localhost:8000/graphql",
+  credentials: 'same-origin'
+})
+
+/* Add token in headers */
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token')
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+})
+
 // ApolloProvider et ApolloClient sont des composants React qui sont utilisés pour connecter le client à l'API GraphQL
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql",
+  // uri: "http://localhost:8000/graphql",
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
@@ -47,8 +67,9 @@ ReactDOM.render(
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<App />} />
+          <Route path="/" element={<Login />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/home" element={<App />} />
           </Routes>
         </BrowserRouter>
       </ProjectProvider>
