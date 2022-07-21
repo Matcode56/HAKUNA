@@ -1,13 +1,7 @@
 import { gql } from "apollo-server"
 
 export const typeDefs = gql`
-  
-  type Contacts {
-    id: ID!
-    email: String!
-    tel: Int
-    user_id: Users
-  }
+
 
   type Notifications {
     id: ID!
@@ -56,9 +50,10 @@ export const typeDefs = gql`
     firstname: String
     lastname: String
     password: String
-    Contacts: [Contacts]
+    email: String 
+    tel: Int
+    roles: String
     Notifications: [Notifications]
-    Roles: [Roles]
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
@@ -108,6 +103,8 @@ export const typeDefs = gql`
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
+    getUser(id: String): Users
+    getUsers: [Users]
   }
 
   type Mutation {
@@ -115,5 +112,8 @@ export const typeDefs = gql`
     createProjectNested(id: String, createdAt: String, description: String, name: String, deadline: String, user_project: String): Projects!
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
+    createUser(firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    updateUser(id: String,firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    deleteUser(id: String): Users!
   }
 `

@@ -1,4 +1,5 @@
 import { prisma } from "../../database"
+import * as bcrypt from 'bcrypt';
 
 export const Mutation = {
 
@@ -40,6 +41,68 @@ export const Mutation = {
         description: args.description !== null ? args.description : undefined,
         name: args.name !== null ? args.name : undefined,
         deadline: args.deadline !== null ? args.deadline : undefined,
+      }
+    })
+  },
+
+  createUser: async (parent: any, args:{firstname: string, lastname: string, email: string, password: string, tel: number})=>{
+
+    const password: string= await cryptagePassword(args.password)
+
+    async function cryptagePassword(password: string){
+        const salt = await bcrypt.genSalt();
+        const passwordHashed= await bcrypt.hash(password, salt);
+        return passwordHashed;
+        
+    }
+    return prisma.users.create({
+      data: {
+        firstname: args.firstname,
+        lastname: args.lastname,
+        password: password,
+        tel: args.tel,
+        email: args.email,
+        
+      }
+    })
+  },
+
+  updateUser: async(parent: any, args:{id: String, firstname: string, lastname: string, email: string, password: string, tel: number})=>{
+    // if(args.email){
+      console.log(args);
+      const user= await prisma.users.findUnique({where: {id: Number(args.id)}});
+      
+      if(!user){
+        throw new Error('id invalid')
+      }
+      const email= args.email? await checkEmail(args.email): null;
+      const firstname= args.firstname;
+      const lastname= args.lastname;
+      const tel= args.tel;
+      const password= args.password;
+      
+      async function checkEmail(emailToCheck: string){
+        const email= await prisma.users.findUnique({where: {email : emailToCheck}})
+        if(email) throw new Error("email déja utilisé")
+        return args.email;
+      }
+   
+    return prisma.users.update({
+      where: { id: Number(args.id)},
+      data: {
+        firstname,
+        lastname,
+        password,
+        email,
+        tel
+      }
+    })
+  },
+
+  deleteUser:(parent: any, args:{id: String})=>{
+    return prisma.users.delete({
+      where:{
+        id: Number(args.id)
       }
     })
   },

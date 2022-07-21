@@ -11,7 +11,7 @@ export const Query = {
     return prisma.projects.findMany()
   },
 
-  getProjectsUser: async(args:{user_id: string})=>{
+  getProjectsUser: async(parents: any, args:{user_id: string})=>{
     // const searchUserProjects= await prisma.user_project.findMany({
     //     where: {user_id: Number(args.user_id)}
     // })
@@ -21,5 +21,16 @@ export const Query = {
     return prisma.projects.findMany({
         where: { id: 3 } 
     })
+  },
+
+  getUsers: ()=>{
+    return prisma.users.findMany()
+  },
+
+  getUser: (parents: any, args:{id: string})=>{
+    console.log(args.id);
+    
+    return prisma.users.findUnique({where: {id: Number(args.id)}})
   }
+
 }
