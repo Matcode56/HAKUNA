@@ -27,7 +27,7 @@ export const Query = {
     return prisma.users.findMany()
   },
 
-  getUser: (parent: any, args: { id: string }) => {
-    return prisma.users.findUnique({ where: { id: Number(args.id) } })
+  getUser: (parent: any, args: { email: string }) => {
+    return prisma.users.findUnique({ where: { email: args.email } })
   },
 }

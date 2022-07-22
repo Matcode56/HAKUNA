@@ -35,7 +35,17 @@ export const DELETE_PROJECT = gql`
 `
 
 export const LOGIN = gql`
-  query login($email: String!, $password: String:!) {
-    login(email: $email, password: $password)
+  mutation Mutation($email: String, $password: String) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        id
+        firstname
+        lastname
+        email
+        tel
+        roles
+      }
+    }
   }
 `

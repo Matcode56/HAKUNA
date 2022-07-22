@@ -100,7 +100,7 @@ export const typeDefs = gql`
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
-    getUser(id: String): Users
+    getUser(email: String): Users
     getUsers: [Users]
   }
 

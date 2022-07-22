@@ -77,13 +77,14 @@ export const Mutation = {
     try {
       const user = await prisma.users.findUnique({ where: { email: args.email } })
       if (!user) throw new Error('No user with that email')
-      const isValid = await bcrypt.compare(args.password, user.password)
-      if (!isValid) throw new Error('Incorrect password')
-      /* Return JWT */
+      const isValidPassword = await bcrypt.compare(args.password, user.password)
+      if (!isValidPassword) throw new Error('Incorrect password')
+
       const token = jwt.sign(
         {
           id: user.id,
-          email: args.email,
+          email: user.email,
+          role: user.roles,
         },
         JWT_SECRET,
         {
