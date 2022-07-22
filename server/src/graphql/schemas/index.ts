@@ -1,8 +1,6 @@
 import { gql } from "apollo-server"
 
 export const typeDefs = gql`
-
-
   type Notifications {
     id: ID!
     description: String!
@@ -98,6 +96,10 @@ export const typeDefs = gql`
     Dev
   }
 
+  type login {
+    token: String
+    user: Users
+  }
   type Query {
     hello: String
     getProject(id: String): Projects
@@ -115,5 +117,6 @@ export const typeDefs = gql`
     createUser(firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
     updateUser(id: String,firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
     deleteUser(id: String): Users!
+    login(email: String, password: String): login
   }
 `

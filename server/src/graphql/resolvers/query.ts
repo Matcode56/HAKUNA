@@ -1,7 +1,8 @@
 import { prisma } from "../../database"
+import { checkToken } from "../middlewares/resolversMiddlewares"
 
 export const Query = {
-  getProject: (parent: any, args:{id: string})=>{
+  getProject: (parent: any, args:{id: string, token: string})=>{
     return prisma.projects.findUnique({
         where:{id: Number(args.id)}
     })
@@ -11,26 +12,34 @@ export const Query = {
     return prisma.projects.findMany()
   },
 
-  getProjectsUser: async(parents: any, args:{user_id: string})=>{
-    // const searchUserProjects= await prisma.user_project.findMany({
-    //     where: {user_id: Number(args.user_id)}
-    // })
-    // const idUserProject= searchUserProjects.map((e)=>{
-    //     return e.project_id
-    // })
+  getProjectsUser: async(parents: any, args:{})=>{
+
     return prisma.projects.findMany({
         where: { id: 3 } 
     })
   },
 
   getUsers: ()=>{
-    return prisma.users.findMany()
+    return prisma.users.findMany({select:{
+        email: true,
+        firstname: true,
+        lastname: true,
+        roles: true,
+        id: true
+    }})
   },
 
-  getUser: (parents: any, args:{id: string})=>{
-    console.log(args.id);
-    
-    return prisma.users.findUnique({where: {id: Number(args.id)}})
+  getUser: (parents: any, args:{id: string}, decodedToken: any)=>{
+    checkToken(decodedToken);  
+    return prisma.users.findUnique({where: {id: Number(args.id)}, select:{
+      email: true,
+      firstname: true,
+      lastname: true,
+      roles: true,
+      id: true
+  }})
   }
+
+  
 
 }
