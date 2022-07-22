@@ -1,4 +1,5 @@
 import { prisma } from '../../database'
+import { checkToken } from '../middlewares/resolversMiddlewares'
 
 export const Query = {
   getProject: (parent: any, args: { id: string }) => {
@@ -27,7 +28,17 @@ export const Query = {
     return prisma.users.findMany()
   },
 
-  getUser: (parent: any, args: { email: string }) => {
-    return prisma.users.findUnique({ where: { email: args.email } })
+  getUser: (parents: any, args: { email: string }, decodedToken: any) => {
+    checkToken(decodedToken)
+    return prisma.users.findUnique({
+      where: { email: args.email },
+      select: {
+        email: true,
+        firstname: true,
+        lastname: true,
+        roles: true,
+        id: true,
+      },
+    })
   },
 }

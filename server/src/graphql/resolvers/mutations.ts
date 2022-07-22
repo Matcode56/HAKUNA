@@ -1,6 +1,7 @@
 import { prisma } from '../../database'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import { checkToken } from '../middlewares/resolversMiddlewares'
 
 require('dotenv').config()
 const { JWT_SECRET } = process.env
@@ -73,7 +74,57 @@ export const Mutation = {
     })
   },
 
-  login: async (parent: any, args: { email: string; password: string }, context: any) => {
+  updateUser: async (
+    parent: any,
+    args: { id: String; firstname: string; lastname: string; email: string; password: string; tel: number },
+    decodedToken: any
+  ) => {
+    checkToken(decodedToken)
+    const idUser = decodedToken.id
+    const idUserToUpdate = Number(args.id)
+    const roleUser = decodedToken.role
+    if (idUser !== idUserToUpdate && roleUser !== 'ADMIN') throw new Error('UPDATE FORBIDDEN')
+
+    const user = await prisma.users.findUnique({ where: { id: Number(args.id) } })
+    if (!user) throw new Error('id invalid')
+
+    const email = args.email ? await checkEmail(args.email) : user.email
+    const firstname = args.firstname ? args.firstname : user.firstname
+    const lastname = args.lastname ? args.lastname : user.lastname
+    const tel = args.tel ? args.tel : user.tel
+
+    async function checkEmail(emailToCheck: string) {
+      const email = await prisma.users.findUnique({ where: { email: emailToCheck } })
+      if (email) throw new Error('email déja utilisé')
+      return args.email
+    }
+
+    return prisma.users.update({
+      where: { id: Number(args.id) },
+      data: {
+        firstname,
+        lastname,
+        email,
+        tel,
+      },
+    })
+  },
+
+  deleteUser: (parent: any, args: { id: String }, decodedToken: any) => {
+    checkToken(decodedToken)
+    const idUser = decodedToken.id
+    const idUserToDelete = Number(args.id)
+    const roleUser = decodedToken.role
+    if (idUser !== idUserToDelete && roleUser !== 'ADMIN') throw new Error('UPDATE FORBIDDEN')
+
+    return prisma.users.delete({
+      where: {
+        id: Number(args.id),
+      },
+    })
+  },
+
+  login: async (parent: any, args: { email: string; password: string }) => {
     try {
       const user = await prisma.users.findUnique({ where: { email: args.email } })
       if (!user) throw new Error('No user with that email')

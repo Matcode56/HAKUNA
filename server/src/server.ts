@@ -9,10 +9,11 @@ import jwt from 'jsonwebtoken'
 require('dotenv').config()
 const { JWT_SECRET } = process.env
 
-const getUser = (token: any) => {
+const checkToken = async (token: string) => {
   try {
     if (token) {
-      return jwt.verify(token, JWT_SECRET)
+      const tokenVERIFY = jwt.verify(token, JWT_SECRET)
+      return tokenVERIFY
     }
     return null
   } catch (error) {
@@ -34,8 +35,8 @@ const startApolloServer = async () => {
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
       const token = req.headers.authorization || ''
-      const user = getUser(token)
-      return { user }
+      const decodedToken = checkToken(token)
+      return decodedToken
     },
   })
 

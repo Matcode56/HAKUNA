@@ -37,11 +37,11 @@ interface Users {
 }
 
 interface Token {
-  id: number
-  email: string
-  exp: number
-  iat: number
-  role: string
+  id?: number
+  email?: string
+  exp?: number
+  iat?: number
+  role?: string
 }
 
 interface UsersAction {

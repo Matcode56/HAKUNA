@@ -110,6 +110,8 @@ export const typeDefs = gql`
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
     createUser(firstname: String, lastname: String, email: String, password: String, tel: Int): Users!
+    updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    deleteUser(id: String): Users!
     login(email: String, password: String): login
   }
 `

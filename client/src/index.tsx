@@ -11,7 +11,6 @@ import { Navigation } from './components/Navbar'
 import { Projects } from './components/Project/Projects'
 import reportWebVitals from './reportWebVitals'
 import { ProjectProvider } from './hooks/projects/context'
-import { UsersProvider } from './hooks/users/context'
 import { Login } from './components/Login'
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
@@ -56,18 +55,16 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <UsersProvider>
-        <ProjectProvider>
-          <BrowserRouter>
-            <Navigation />
-            <Routes>
-              <Route path='/' element={<Login />} />
-              <Route path='/projects' element={<Projects />} />
-              <Route path='/home' element={<App />} />
-            </Routes>
-          </BrowserRouter>
-        </ProjectProvider>
-      </UsersProvider>
+      <ProjectProvider>
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/projects' element={<Projects />} />
+            <Route path='/home' element={<App />} />
+          </Routes>
+        </BrowserRouter>
+      </ProjectProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
