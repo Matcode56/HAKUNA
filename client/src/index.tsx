@@ -18,6 +18,7 @@ import { Projects } from "./components/Project/Projects";
 import { ProjectProvider } from "./hooks/context";
 import { Login }  from "./components/Login";
 import { Register } from "./components/Register";
+import { Profile } from "./components/Profile";
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -53,6 +54,7 @@ ReactDOM.render(
             <Route path="/projects" element={<Projects />} />
             <Route path="/home" element={<App />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </ProjectProvider>

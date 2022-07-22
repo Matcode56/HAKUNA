@@ -24,7 +24,6 @@ export const Login = () => {
               type="text"
               placeholder="example@mail.com"
             />
-            <p className="text-red-500 text-xs italic">Please enter a mail.</p>
           </div>
           <div className="mb-6">
             <label
@@ -39,9 +38,6 @@ export const Login = () => {
               type="password"
               placeholder="******************"
             />
-            <p className="text-red-500 text-xs italic">
-              Please enter a password.
-            </p>
           </div>
           <div className="flex items-center justify-between">
             <button

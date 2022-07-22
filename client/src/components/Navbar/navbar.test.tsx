@@ -16,8 +16,9 @@ it("renders without crashing", () => {
 //Si vous rajoutez un lien, vous devez le rajouter dans le tableau et rajouter dans index.tsx ( la navbar)
 // une propriété "data-testid="
 const links = [
-  { testId: "Home", href: "/" },
+  { testId: "Home", href: "/home" },
   { testId: "Projects", href: "/projects" },
+  { testId: "Profile", href: "/profile" },
 ];
 
 // I use test.each to iterate the test cases above

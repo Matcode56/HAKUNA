@@ -23,6 +23,11 @@ export default function Navigation(props:any) {
               <img src="/icons/projects.svg" alt="" />
             </NavLink>
           </li>
+          <li className="bg-lavender rounded-3xl -ml-4 flex justify-end pr-3 py-1 px-5 mb-20">
+            <NavLink to="/profile" data-testid="Profile">
+              <img src="/icons/userProfile.svg" alt="" />
+            </NavLink>
+          </li>
         </ul>
       </nav>
       </>
