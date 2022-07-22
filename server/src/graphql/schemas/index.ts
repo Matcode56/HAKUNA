@@ -1,13 +1,6 @@
 import { gql } from "apollo-server"
 
 export const typeDefs = gql`
-  
-  type Contacts {
-    id: ID!
-    email: String!
-    tel: Int
-    user_id: Users
-  }
 
   type Notifications {
     id: ID!
@@ -55,14 +48,16 @@ export const typeDefs = gql`
     id: ID!
     firstname: String
     lastname: String
+    email: String
     password: String
-    Contacts: [Contacts]
+    tel: Int
     Notifications: [Notifications]
     Roles: [Roles]
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
   }
+
 
   type task_comments {
     id: ID!

@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl"]
 }
 
@@ -8,91 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Contacts {
-  id      Int    @id @default(autoincrement())
-  email   String @db.VarChar(50)
-  tel     Int
-  user_id Int
-  Users   Users  @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id")
-
-  @@index([user_id], map: "user_id")
-}
-
-model Notifications {
-  id          Int      @id @default(autoincrement())
-  description String   @db.Text
-  isRead      Boolean
-  createdAt   DateTime @db.DateTime(0)
-  user_id     Int
-  task_id     Int
-  project_id  Int
-  Projects    Projects @relation(fields: [project_id], references: [id], onUpdate: Restrict, map: "project_id_notif")
-  Tasks       Tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_notif")
-  Users       Users    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_notif")
-
-  @@index([project_id], map: "project_id_notif")
-  @@index([task_id], map: "task_id_notif")
-  @@index([user_id], map: "user_id_notif")
-}
-
-model Projects {
-  id            Int             @id @default(autoincrement())
-  description   String          @db.Text
-  createdAt     DateTime        @default(now()) @db.DateTime(0)
-  name          String          @db.VarChar(100)
-  deadline      DateTime        @db.DateTime(0)
-  Notifications Notifications[]
-  Tasks         Tasks[]
-  user_project  user_project[]
-}
-
-model Roles {
-  id      Int        @id @default(autoincrement())
-  user_id Int
-  name    Roles_name
-  Users   Users      @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "id_user")
-
-  @@index([user_id], map: "id_user")
-}
-
-model Tasks {
-  id               Int                @id @default(autoincrement())
-  description      String             @db.Text
-  createdAt        DateTime           @db.DateTime(0)
-  deadline         DateTime           @db.DateTime(0)
-  done             Boolean
-  name             String             @db.VarChar(100)
-  project_id       Int
-  Projects         Projects           @relation(fields: [project_id], references: [id], onUpdate: Restrict, map: "project_id")
-  Notifications    Notifications[]
-  task_comments    task_comments[]
-  tasks_logs       tasks_logs[]
-  tasks_ressources tasks_ressources[]
-  user_task        user_task[]
-
-  @@index([project_id], map: "project_id")
-}
-
-model Users {
-  id            Int             @id @default(autoincrement())
-  firstname     String          @db.VarChar(50)
-  lastname      String          @db.VarChar(50)
-  password      String          @db.VarChar(255)
-  Contacts      Contacts[]
-  Notifications Notifications[]
-  Roles         Roles[]
-  task_comments task_comments[]
-  user_project  user_project[]
-  user_task     user_task[]
-}
-
 model task_comments {
   id      Int    @id @default(autoincrement())
   comment String @db.Text
   task_id Int
   user_id Int
-  Tasks   Tasks  @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "id_task")
-  Users   Users  @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "id_user_task")
+  tasks   tasks  @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "id_task")
+  users   users  @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "id_user_task")
 
   @@index([task_id], map: "id_task")
   @@index([user_id], map: "id_user_task")
@@ -103,27 +25,29 @@ model tasks_logs {
   description String   @db.Text
   createdAt   DateTime @db.DateTime(0)
   task_id     Int
-  Tasks       Tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id")
+  tasks       tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id")
 
   @@index([task_id], map: "task_id")
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model tasks_ressources {
-  id        Int      @id @default(autoincrement())
+  id        Int
   file      Bytes    @db.Blob
   createdAt DateTime @db.DateTime(0)
   task_id   Int
-  Tasks     Tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_ressources")
+  tasks     tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_ressources")
 
   @@index([task_id], map: "task_id_ressources")
+  @@ignore
 }
 
 model user_project {
   id         Int      @id @default(autoincrement())
   user_id    Int
   project_id Int
-  Projects   Projects @relation(fields: [project_id], references: [id], onUpdate: Restrict, map: "project_id_user")
-  Users      Users    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_project")
+  projects   projects @relation(fields: [project_id], references: [id], onUpdate: Restrict, map: "project_id_user")
+  users      users    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_project")
 
   @@index([project_id], map: "project_id_user")
   @@index([user_id], map: "user_id_project")
@@ -133,15 +57,67 @@ model user_task {
   id      Int   @id @default(autoincrement())
   user_id Int
   task_id Int
-  Tasks   Tasks @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_user")
-  Users   Users @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_task")
+  tasks   tasks @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_user")
+  users   users @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_task")
 
   @@index([task_id], map: "task_id_user")
   @@index([user_id], map: "user_id_task")
 }
 
-enum Roles_name {
-  Admin
-  PO
-  Dev
+model notifications {
+  id          Int      @id @default(autoincrement())
+  description String   @db.Text
+  isRead      Boolean
+  createdAt   DateTime @db.DateTime(0)
+  user_id     Int
+  task_id     Int
+  project_id  Int
+  projects    projects @relation(fields: [project_id], references: [id], onUpdate: Restrict, map: "project_id_notif")
+  tasks       tasks    @relation(fields: [task_id], references: [id], onUpdate: Restrict, map: "task_id_notif")
+  users       users    @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "user_id_notif")
+
+  @@index([project_id], map: "project_id_notif")
+  @@index([task_id], map: "task_id_notif")
+  @@index([user_id], map: "user_id_notif")
+}
+
+model projects {
+  id            Int             @id @default(autoincrement())
+  description   String          @db.Text
+  createdAt     DateTime        @db.DateTime(0)
+  name          String          @db.VarChar(100)
+  deadline      DateTime        @db.DateTime(0)
+  notifications notifications[]
+  user_project  user_project[]
+}
+
+model tasks {
+  id               Int                @id @default(autoincrement())
+  description      String             @db.Text
+  createdAt        DateTime           @db.DateTime(0)
+  deadline         DateTime           @db.DateTime(0)
+  done             Boolean
+  name             String             @db.VarChar(100)
+  project_id       Int
+  notifications    notifications[]
+  task_comments    task_comments[]
+  tasks_logs       tasks_logs[]
+  tasks_ressources tasks_ressources[] @ignore
+  user_task        user_task[]
+
+  @@index([project_id], map: "project_id")
+}
+
+model users {
+  id            Int             @id @default(autoincrement())
+  firstname     String          @db.VarChar(50)
+  lastname      String          @db.VarChar(50)
+  email         String          @unique(map: "email") @db.VarChar(255)
+  password      String          @db.VarChar(255)
+  tel           Int
+  roles         String          @default("DEV") @db.VarChar(10)
+  notifications notifications[]
+  task_comments task_comments[]
+  user_project  user_project[]
+  user_task     user_task[]
 }
