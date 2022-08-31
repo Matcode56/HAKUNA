@@ -19,7 +19,8 @@ export const Query = {
     })
   },
 
-  getUsers: ()=>{
+  getUsers: (parents: any, args:any, decodedToken: any)=>{
+    checkToken(decodedToken); 
     return prisma.users.findMany({select:{
         email: true,
         firstname: true,

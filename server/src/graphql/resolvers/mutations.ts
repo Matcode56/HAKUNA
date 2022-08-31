@@ -6,7 +6,7 @@ import { checkToken } from "../middlewares/resolversMiddlewares";
 
 export const Mutation = {
 
-  login: async (parent: any, args: { email: string; password: string }, context: any) => {
+  login: async (parent: any, args: { email: string; password: string }) => {
     try {
       const user = await prisma.users.findUnique({ where: { email: args.email } })
       if (!user) throw new Error('No user with that email')
