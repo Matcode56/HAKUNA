@@ -10,7 +10,7 @@ import {
 } from "react";
 import { GET_PROJECTS } from "../../Graphql/Queries";
 import { DELETE_PROJECT } from "../../Graphql/Mutations";
-import { ProjectContext } from "../../hooks/context";
+import { ProjectContext } from "../../hooks/projects/context";
 import Select from "react-select";
 
 export const ListOfProjects = () => {
