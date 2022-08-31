@@ -6,7 +6,7 @@ import { resolvers } from './graphql/resolvers'
 import http from 'http'
 import jwt from 'jsonwebtoken'
 
-require('dotenv').config()
+require('dotenv').config({ path: '../.env' })
 const { JWT_SECRET } = process.env
 
 const checkToken = async (token: string) => {
