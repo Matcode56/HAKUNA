@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.5.10",
+    "@apollo/client": "^3.6.9",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/react-router-dom": "^5.3.3",
     "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "node-sass": "^7.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -41,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
     "tailwindcss": "^3.0.24"
   }
 }
