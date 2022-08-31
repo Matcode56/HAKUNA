@@ -1,16 +1,16 @@
-.container{
+.container {
   .projects-list {
     max-height: 610px;
     overflow: auto;
 
-    .single-project{
+    .single-project {
       position: absolute;
       left: 0;
       width: 81%;
       height: 100%;
     }
   }
-  .custom-buttons{
+  .custom-buttons {
     @include buttons;
   }
 }
