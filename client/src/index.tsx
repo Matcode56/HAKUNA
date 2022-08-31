@@ -33,7 +33,7 @@ import { Profile } from './components/Profile'
 //   ]);
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'http://localhost:5000/graphql',
   credentials: 'same-origin',
 })
 
