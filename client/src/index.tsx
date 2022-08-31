@@ -37,18 +37,34 @@ import { Profile } from "./components/Profile";
 //     new HttpLink({ uri: "http://localhost:8080/graphql" }),
 //   ]);
 
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8000/graphql',
+  credentials: 'same-origin',
+})
+
+/* Add token in headers */
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token')
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  }
+})
+
 // ApolloProvider et ApolloClient sont des composants React qui sont utilisés pour connecter le client à l'API GraphQL
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql",
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-});
+})
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <ProjectProvider>
         <BrowserRouter>
-          <Navbar />
+          <Navigation />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/projects" element={<Projects />} />
@@ -60,10 +76,10 @@ ReactDOM.render(
       </ProjectProvider>
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

@@ -1,13 +1,13 @@
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import Navbar from "./index";
+import { Navigation } from "./index";
 import { render, screen } from "@testing-library/react";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <BrowserRouter>
-      <Navbar />
+      <Navigation />
     </BrowserRouter>,
     div
   );
@@ -25,7 +25,7 @@ const links = [
 test.each(links)("Check if Nav Bar have links.", (link) => {
   render(    
   <BrowserRouter>
-    <Navbar />
+    <Navigation />
   </BrowserRouter>);
   //On vérifie que le lien est bien présent dans le DOM
   const linkDom = screen.getByTestId(link.testId);

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 
-export default function Navigation(props:any) {
+export const Navigation = () => {
+  const [token, setToken] = useState<Token>({})
 
   const [isActive, setIsActive] = useState(false)
 
@@ -33,4 +34,3 @@ export default function Navigation(props:any) {
       </>
     );
   }
-  

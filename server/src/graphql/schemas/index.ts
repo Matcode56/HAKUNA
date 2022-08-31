@@ -1,7 +1,6 @@
-import { gql } from "apollo-server"
+import { gql } from 'apollo-server'
 
 export const typeDefs = gql`
-
   type Notifications {
     id: ID!
     description: String!
@@ -21,12 +20,6 @@ export const typeDefs = gql`
     Notifications: [Notifications]
     Tasks: [Tasks]
     user_project: [user_project]
-  }
-
-  type Roles {
-    id: ID!
-    name: RolesName
-    user_id: Users
   }
 
   type Tasks {
@@ -51,8 +44,8 @@ export const typeDefs = gql`
     email: String
     password: String
     tel: Int
+    roles: String
     Notifications: [Notifications]
-    Roles: [Roles]
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
@@ -92,6 +85,11 @@ export const typeDefs = gql`
     task_id: Tasks
   }
 
+  type login {
+    token: String
+    user: Users
+  }
+
   enum RolesName {
     Admin
     PO
@@ -103,6 +101,8 @@ export const typeDefs = gql`
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
+    getUser(email: String): Users
+    getUsers: [Users]
   }
 
   type Mutation {
@@ -110,5 +110,9 @@ export const typeDefs = gql`
     createProjectNested(id: String, createdAt: String, description: String, name: String, deadline: String, user_project: String): Projects!
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
+    createUser(firstname: String, lastname: String, email: String, password: String, tel: Int): Users!
+    updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    deleteUser(id: String): Users!
+    login(email: String, password: String): login
   }
 `

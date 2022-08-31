@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ProjectContext } from "../../hooks/context"
+import { ProjectContext } from "../../hooks/projects/context"
 
 export const SingleProject = () => {
   const { projectState } = useContext(ProjectContext)

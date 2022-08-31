@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useContext } from "react";
 import { UPDATE_PROJECT } from "../../Graphql/Mutations";
 import { GET_PROJECTS } from "../../Graphql/Queries";
-import { ProjectContext } from "../../hooks/context";
+import { ProjectContext } from "../../hooks/projects/context";
 
 export const UpdateProject = () => {
   const { projectState, projectDispatch } = useContext(ProjectContext)
@@ -12,8 +12,6 @@ export const UpdateProject = () => {
       'getProjects'
     ]
   })
-
-  console.log(data);
   
 
   return (
@@ -48,7 +46,7 @@ export const UpdateProject = () => {
                   type="text"
                   placeholder="Name"
                   value={update.name}
-                  onChange={(e) => projectDispatch({type: 'UPDATE_NAME', payloadUpdate: e.target.value})}
+                  onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'name'})}
                 />
                 <h1 className="text-black text-2xl text-center font-title my-2">
                   Description
@@ -58,7 +56,7 @@ export const UpdateProject = () => {
                   type="text"
                   value={update.description}
                   placeholder="Description"
-                  onChange={(e) => projectDispatch({type: 'UPDATE_DESC', payloadUpdate: e.target.value})}
+                  onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'desc'})}
                 />
                 <h1 className="text-black  text-2xl text-center font-title my-2">
                   Deadline
@@ -67,7 +65,7 @@ export const UpdateProject = () => {
                   className="border  text-gray font-bold py-2 px-4 rounded w-full bg-white"
                   type="date"
                   value={update.deadline} // value want onChange
-                  onChange={(e) => projectDispatch({type: 'UPDATE_DATE', payloadUpdate: e.target.value})}
+                  onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'deadline'})}
                 />
                 <div className="text-center">
                 <button
