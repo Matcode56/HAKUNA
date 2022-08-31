@@ -1,17 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  // HttpLink,
+  // from,
+} from "@apollo/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import './index.css'
-import './scss/style.scss'
-import { App } from './App'
-import { Navigation } from './components/Navbar'
-import { Projects } from './components/Project/Projects'
-import reportWebVitals from './reportWebVitals'
-import { ProjectProvider } from './hooks/projects/context'
-import { Login } from './components/Login'
+import "./index.css";
+import "./scss/style.scss";
+import reportWebVitals from "./reportWebVitals";
+import App from "./App";
+import Navbar from "./components/Navbar";
+import { Projects } from "./components/Project/Projects";
+import { ProjectProvider } from "./hooks/context";
+import { Login }  from "./components/Login";
+import { Register } from "./components/Register";
+import { Profile } from "./components/Profile";
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -59,9 +66,11 @@ ReactDOM.render(
         <BrowserRouter>
           <Navigation />
           <Routes>
-            <Route path='/' element={<Login />} />
-            <Route path='/projects' element={<Projects />} />
-            <Route path='/home' element={<App />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/home" element={<App />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </ProjectProvider>

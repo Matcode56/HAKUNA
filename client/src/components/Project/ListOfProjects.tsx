@@ -1,18 +1,83 @@
-import { useQuery, useMutation } from '@apollo/client'
-import { Key, ReactChild, ReactFragment, ReactPortal, useContext } from 'react'
-import { GET_PROJECTS } from '../../Graphql/Queries'
-import { DELETE_PROJECT } from '../../Graphql/Mutations'
-import { ProjectContext } from '../../hooks/projects/context'
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  Key,
+  ReactChild,
+  ReactFragment,
+  ReactPortal,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+import { GET_PROJECTS } from "../../Graphql/Queries";
+import { DELETE_PROJECT } from "../../Graphql/Mutations";
+import { ProjectContext } from "../../hooks/context";
+import Select from "react-select";
 
 export const ListOfProjects = () => {
-  const { projectDispatch } = useContext(ProjectContext)
+  const { projectDispatch } = useContext(ProjectContext);
 
   /* Query and Mutation */
   const { data, error, loading } = useQuery(GET_PROJECTS)
   const [deleteProject] = useMutation(DELETE_PROJECT, {
-    refetchQueries: [{ query: GET_PROJECTS }, 'getProjects'],
-  })
 
+    refetchQueries: [{ query: GET_PROJECTS }, "getProjects"],
+  });
+
+  const [sortedData, setSortedData] = useState<any[]>([]);
+  const [sortProperty, setSortProperty] = useState("");
+  const [baseData, setBaseData] = useState<any[]>([]);
+
+  const options = [
+    { value: "deadline", label: "Date" },
+    { value: "name", label: "Name" },
+  ];
+
+  useEffect(() => {
+    if (loading === false && data && baseData) {
+      setBaseData(data.getProjects);
+    }
+    const sorted = [...baseData].sort((a, b) =>
+      a[sortProperty] > b[sortProperty] ? 1 : -1
+    );
+    setSortedData(sorted);
+  }, [baseData, data, loading, sortProperty]);
+
+  const selectStyle = {
+    control: (styles: any) => {
+      return {
+        ...styles,
+        backgroundColor: "#8188FE",
+        color: "white",
+        borderRadius: "15px",
+        "&:hover": {
+          borderColor: "#676ccb",
+        },
+      };
+    },
+    placeholder: (styles: any) => ({
+      ...styles,
+      backgroundColor: "",
+      color: "white",
+    }),
+    dropdownIndicator: (styles: any) => ({
+      ...styles,
+      color: "white",
+    }),
+    singleValue: (styles: any) => ({
+      ...styles,
+      color: "white",
+    }),
+    option: (styles: any) => {
+      return {
+        ...styles,
+        backgroundColor: "#8188FE",
+        color: "white",
+        "&:hover": {
+          backgroundColor: "#676ccb",
+        },
+      };
+    },
+  };
   return (
     <>
       {loading ? (

@@ -24,7 +24,7 @@ $fontgray: #424242;
   color: $color;
 }
 
-@mixin modal ($background: $paleyellow) {
+@mixin modal ($background: white) {
   visibility: hidden;
   opacity: 0;
   height: 0;
