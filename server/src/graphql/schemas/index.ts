@@ -41,8 +41,8 @@ export const typeDefs = gql`
     id: ID!
     firstname: String
     lastname: String
-    email: String
     password: String
+    email: String 
     tel: Int
     roles: String
     Notifications: [Notifications]
@@ -96,12 +96,16 @@ export const typeDefs = gql`
     Dev
   }
 
+  type login {
+    token: String
+    user: Users
+  }
   type Query {
     hello: String
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
-    getUser(email: String): Users
+    getUser(id: String): Users
     getUsers: [Users]
   }
 
@@ -110,8 +114,8 @@ export const typeDefs = gql`
     createProjectNested(id: String, createdAt: String, description: String, name: String, deadline: String, user_project: String): Projects!
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
-    createUser(firstname: String, lastname: String, email: String, password: String, tel: Int): Users!
-    updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    createUser(firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    updateUser(id: String,firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
     deleteUser(id: String): Users!
     login(email: String, password: String): login
   }

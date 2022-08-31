@@ -58,5 +58,4 @@ const startApolloServer = async () => {
 
   return { server, app }
 }
-
 startApolloServer()

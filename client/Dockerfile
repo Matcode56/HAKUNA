@@ -3,6 +3,7 @@ FROM node:lts-alpine
 RUN mkdir /app-react
 WORKDIR /app-react
 COPY package*.json ./
+COPY tsconfig.json ./
 RUN npm i
 COPY . .
 
