@@ -1,4 +1,4 @@
-import { gql } from "apollo-server"
+import { gql } from 'apollo-server'
 
 export const typeDefs = gql`
   type Notifications {
@@ -20,12 +20,6 @@ export const typeDefs = gql`
     Notifications: [Notifications]
     Tasks: [Tasks]
     user_project: [user_project]
-  }
-
-  type Roles {
-    id: ID!
-    name: RolesName
-    user_id: Users
   }
 
   type Tasks {
@@ -56,6 +50,7 @@ export const typeDefs = gql`
     user_project: [user_project]
     user_task: [user_task]
   }
+
 
   type task_comments {
     id: ID!
@@ -88,6 +83,11 @@ export const typeDefs = gql`
     id: ID!
     user_id: Users
     task_id: Tasks
+  }
+
+  type login {
+    token: String
+    user: Users
   }
 
   enum RolesName {

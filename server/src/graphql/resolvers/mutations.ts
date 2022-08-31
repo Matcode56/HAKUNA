@@ -3,8 +3,8 @@ import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { checkToken } from "../middlewares/resolversMiddlewares";
 
-
-export const Mutation = {
+require('dotenv').config()
+const { JWT_SECRET } = process.env
 
   login: async (parent: any, args: { email: string; password: string }) => {
     try {
@@ -110,8 +110,8 @@ export const Mutation = {
         description: args.description,
         name: args.name,
         deadline: args.deadline,
-        createdAt: args.createdAt
-      }
+        createdAt: args.createdAt,
+      },
     })
   },
   updateProject: (parent: any, args:{ id: String, description: string, name: string, deadline: string}) => {
@@ -122,15 +122,34 @@ export const Mutation = {
         description: args.description !== null ? args.description : undefined,
         name: args.name !== null ? args.name : undefined,
         deadline: args.deadline !== null ? args.deadline : undefined,
-      }
+      },
     })
   },
   deleteProject:(parent: any, args:{id: String})=>{
     //A FAIRE Supression en cascade
     return prisma.projects.delete({
-      where:{
-        id: Number(args.id)
-      }
+      where: {
+        id: Number(args.id),
+      },
+    })
+  },
+
+  createUser: async (parent: any, args: { firstname: string; lastname: string; email: string; password: string; tel: number }) => {
+    const password: string = await cryptagePassword(args.password)
+
+    async function cryptagePassword(password: string) {
+      const salt = await bcrypt.genSalt()
+      const passwordHashed = await bcrypt.hash(password, salt)
+      return passwordHashed
+    }
+    return prisma.users.create({
+      data: {
+        firstname: args.firstname,
+        lastname: args.lastname,
+        password: password,
+        tel: args.tel,
+        email: args.email,
+      },
     })
   },
 }

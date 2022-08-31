@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ProjectContext } from "../../hooks/context"
+import { ProjectContext } from "../../hooks/projects/context"
 
 export const SingleProject = () => {
   const { projectState } = useContext(ProjectContext)
@@ -24,24 +24,22 @@ export const SingleProject = () => {
             <img src="/icons/close.svg" alt="close" />
           </button>
           <h1 className="text-black-300 text-3xl tracking-wider text-center font-title">
-            INFO PROJECT
+            Project INFO
           </h1>
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-left">
             <div className="w-1/3 p-4">
-              <div className=" bis shadow-lg rounded p-4 bg-paleyellow">
                 <h1 className="text-black text-2xl text-center font-title my-2">
                   Name
                 </h1>
-                <p>{single.name}</p>
+                <p className="bg-paleyellow px-10 py-3 rounded-lg border  border-black">{single.name}</p>
                 <h1 className="text-black text-2xl text-center font-title my-2">
                   Description
                 </h1>
-                <p>{single.description}</p>
+                <p className="bg-paleyellow px-10 py-3 rounded-lg border  border-black">{single.description}</p>
                 <h1 className="text-black  text-2xl text-center font-title my-2">
                   Deadline
                 </h1>
-                <p>{single.deadline}</p>
-              </div>
+                <p className="bg-paleyellow px-10 py-3 rounded-lg border  border-black">{single.deadline}</p>
             </div>
           </div>
         </div>

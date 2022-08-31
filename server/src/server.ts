@@ -7,17 +7,17 @@ import http from 'http'
 import jwt from 'jsonwebtoken'
 
 require('dotenv').config()
-
+const { JWT_SECRET } = process.env
 
 const checkToken = async (token: string) => {
   try {
     if (token) {
-      const tokenVERIFY= jwt.verify(token, process.env.PRIVATE_KEY)
+      const tokenVERIFY = jwt.verify(token, JWT_SECRET)
       return tokenVERIFY
     }
     return null
   } catch (error) {
-      return null
+    return null
   }
 }
 
@@ -58,6 +58,4 @@ const startApolloServer = async () => {
 
   return { server, app }
 }
-
 startApolloServer()
-
