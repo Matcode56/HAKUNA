@@ -1,7 +1,7 @@
-FROM node:lts-alpine
+FROM node:17
 RUN mkdir /api
 WORKDIR /api
-COPY package*.json ./
+COPY package.json ./
 COPY tsconfig.json ./
 COPY .env ./
 COPY . .
