@@ -38,7 +38,10 @@ export const Mutation = {
     })
   },
 
-  createUser: async (parent: any, args: { firstname: string; lastname: string; email: string; password: string; tel: number }) => {
+  createUser: async (
+    parent: any,
+    args: { firstname: string; lastname: string; email: string; password: string; tel: string }
+  ) => {
     const password: string = await cryptagePassword(args.password)
 
     async function cryptagePassword(password: string) {

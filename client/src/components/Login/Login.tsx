@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { LOGIN } from '../../Graphql/Mutations'
-import { useState } from 'react'
+import { useContext } from 'react'
 import { useMutation } from '@apollo/client'
+import { UsersContext } from '../../hooks/users/context'
 
 export const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [getToken, { data }] = useMutation(LOGIN)
+  const { usersState, usersDispatch } = useContext(UsersContext)
   const navigate = useNavigate()
 
   if (data) {
@@ -29,8 +29,8 @@ export const Login = () => {
                 id='email'
                 type='text'
                 placeholder='example@mail.com'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={usersState.email}
+                onChange={e => usersDispatch({ type: 'LOGIN', input: 'email', payload: e.target.value })}
               />
               <p className='text-red-500 text-xs italic'>Please enter a mail.</p>
             </div>
@@ -43,8 +43,8 @@ export const Login = () => {
                 id='password'
                 type='password'
                 placeholder='******************'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={usersState.password}
+                onChange={e => usersDispatch({ type: 'LOGIN', input: 'password', payload: e.target.value })}
               />
               <p className='text-red-500 text-xs italic'>Please enter a password.</p>
             </div>
@@ -54,7 +54,8 @@ export const Login = () => {
                 type='button'
                 onClick={async () => {
                   try {
-                    await getToken({ variables: { email: email, password: password } })
+                    await getToken({ variables: { email: usersState.email, password: usersState.password } })
+                    usersDispatch({ type: 'LOGIN', input: 'login', payload: data.login.token })
                     navigate('/home')
                   } catch (err) {
                     console.log(err)
@@ -64,10 +65,16 @@ export const Login = () => {
                 Login
               </button>
               <div className='flex flex-col'>
-                <Link className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800' to='#'>
+                <Link
+                  className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800'
+                  to='#'
+                >
                   Forgot Password?
                 </Link>
-                <Link className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800' to='/register'>
+                <Link
+                  className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800'
+                  to='/register'
+                >
                   Don't have an account ?
                 </Link>
               </div>

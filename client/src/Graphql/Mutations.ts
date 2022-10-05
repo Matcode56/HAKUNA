@@ -49,3 +49,15 @@ export const LOGIN = gql`
     }
   }
 `
+
+export const REGISTER = gql`
+  mutation Mutation($firstname: String, $lastname: String, $password: String, $email: String, $tel: String) {
+    createUser(firstname: $firstname, lastname: $lastname, password: $password, email: $email, tel: $tel) {
+      firstname
+      lastname
+      password
+      email
+      tel
+    }
+  }
+`

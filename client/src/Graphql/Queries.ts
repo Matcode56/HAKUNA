@@ -12,8 +12,8 @@ export const GET_PROJECTS = gql`
   }
 `
 export const GET_USER = gql`
-  query Query($email: String) {
-    getUser(email: $email) {
+  query Query($id: String) {
+    getUser(id: $id) {
       id
       firstname
       lastname
