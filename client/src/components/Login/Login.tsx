@@ -67,7 +67,7 @@ export const Login = () => {
               <div className='flex flex-col'>
                 <Link
                   className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800'
-                  to='#'
+                  to='/forgot-password'
                 >
                   Forgot Password?
                 </Link>

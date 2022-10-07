@@ -61,3 +61,35 @@ export const REGISTER = gql`
     }
   }
 `
+
+export const FORGOT_PASSWORD = gql`
+  mutation Mutation($email: String!) {
+    forgotPassword(email: $email) {
+      token
+      user {
+        id
+        firstname
+        lastname
+        email
+        roles
+      }
+    }
+  }
+`
+
+export const RESET_PASSWORD = gql`
+  mutation Mutation($password: String!, $id: String!) {
+    resetPassword(password: $password, id: $id) {
+      token
+      user {
+        id
+        firstname
+        lastname
+        password
+        email
+        tel
+        roles
+      }
+    }
+  }
+`

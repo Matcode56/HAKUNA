@@ -1,25 +1,29 @@
 import { useMutation } from '@apollo/client'
-import React, { useContext, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { REGISTER } from '../../Graphql/Mutations'
+import decode from 'jwt-decode'
+import { useContext, useRef, useState } from 'react'
+import { RESET_PASSWORD } from '../../Graphql/Mutations'
 import { UsersContext } from '../../hooks/users/context'
 import { EyeEmpty, EyeOff } from 'iconoir-react'
 
-export const Register = () => {
+export const ResetPassword = () => {
+  /* GraphQl */
+  const [resetPassword] = useMutation(RESET_PASSWORD)
+  /* React */
   const { usersState, usersDispatch } = useContext(UsersContext)
-  const { email, firstname, lastname, tel, password, confirmPassword } = usersState
+  const { password, confirmPassword } = usersState
   const [seePassword, setSeePassword] = useState(false)
   const [seeConfirmPassword, setSeeConfirmPassword] = useState(false)
-  const [register] = useMutation(REGISTER)
-  const navigate = useNavigate()
+
+  /* URL */
+  const params = window.location.search
+  const token = params.split('=')[1]
+  const tokenDecode: Token = decode(token)
+  console.log(tokenDecode)
+  localStorage.setItem('token', token)
 
   const refs = {
-    email: useRef<HTMLInputElement>(null),
     password: useRef<HTMLInputElement>(null),
     confirmPassword: useRef<HTMLInputElement>(null),
-    firstname: useRef<HTMLInputElement>(null),
-    lastname: useRef<HTMLInputElement>(null),
-    tel: useRef<HTMLInputElement>(null),
     submit: useRef<HTMLButtonElement>(null),
   }
 
@@ -95,30 +99,12 @@ export const Register = () => {
   }
 
   return (
-    <div className='flex justify-center ml-8'>
-      <div className='container bg-white  py-10 mt-5 rounded-3xl shadow-xl w-1/3 px-12 grid max-h-screen overflow-scroll mb-10'>
-        <img src='/icons/HakunaLogo.png' alt='logo' className='justify-self-center ml-8 -mb-16' />
-        <form>
-          <h1 className='text-center font-title mb-5 uppercase text-xl underline'>Create an account</h1>
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='email'>
-              Email
-            </label>
-            <input
-              ref={refs.email}
-              className='shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='email'
-              type='email'
-              placeholder='example@mail.com'
-              value={email}
-              onChange={e => usersDispatch({ type: 'REGISTER', input: 'email', payload: e.target.value })}
-              onBlur={e => checkInputOnBlur(e, regex.email, refs.email)}
-            />
-            <small className='text-red-500 text-xs italic'></small>
-          </div>
+    <div className='flex flex-col items-center justify-center h-screen'>
+      <div className='w-full max-w-xs'>
+        <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='password'>
-              Password
+              New Password
             </label>
             <div className='relative'>
               <input
@@ -128,7 +114,7 @@ export const Register = () => {
                 type='password'
                 placeholder='******************'
                 value={password}
-                onChange={e => usersDispatch({ type: 'REGISTER', input: 'password', payload: e.target.value })}
+                onChange={e => usersDispatch({ type: 'RESET_PASSWORD', input: 'password', payload: e.target.value })}
                 onBlur={e => checkInputOnBlur(e, regex.password, refs.password)}
               />
               {seePassword ? (
@@ -160,7 +146,7 @@ export const Register = () => {
           </div>
           <div className='mb-4'>
             <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='confirmPassword'>
-              Confirm your password
+              Confirm your new password
             </label>
             <div className='relative'>
               <input
@@ -172,7 +158,7 @@ export const Register = () => {
                 value={confirmPassword}
                 onChange={e =>
                   usersDispatch({
-                    type: 'REGISTER',
+                    type: 'RESET_PASSWORD',
                     input: 'confirmPassword',
                     payload: e.target.value,
                     confirm: usersState.password,
@@ -200,87 +186,25 @@ export const Register = () => {
             </div>
             <small className='text-red-500 text-xs italic'></small>
           </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='firstname'>
-              Firstname
-            </label>
-            <input
-              ref={refs.firstname}
-              className='shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='firstname'
-              type='text'
-              placeholder='John'
-              value={firstname}
-              onChange={e => usersDispatch({ type: 'REGISTER', input: 'firstname', payload: e.target.value })}
-              onBlur={e => checkInputOnBlur(e, regex.name, refs.firstname)}
-            />
-            <small className='text-red-500 text-xs italic'></small>
-          </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='lastname'>
-              Lastname
-            </label>
-            <input
-              ref={refs.lastname}
-              className='shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='lastname'
-              type='text'
-              placeholder='Doe'
-              value={lastname}
-              onChange={e => usersDispatch({ type: 'REGISTER', input: 'lastname', payload: e.target.value })}
-              onBlur={e => checkInputOnBlur(e, regex.name, refs.lastname)}
-            />
-            <small className='text-red-500 text-xs italic'></small>
-          </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-4 font-subtitle' htmlFor='phone'>
-              Phone
-            </label>
-            <input
-              ref={refs.tel}
-              className='shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='phone'
-              type='tel'
-              placeholder='0700000001'
-              value={tel}
-              onChange={e => usersDispatch({ type: 'REGISTER', input: 'tel', payload: e.target.value })}
-              onBlur={e => checkInputOnBlur(e, regex.tel, refs.tel)}
-            />
-            <small className='text-red-500 text-xs italic'></small>
-          </div>
           <div className='flex items-center justify-between'>
             <button
               ref={refs.submit}
-              className='custom-buttons justify-self-center font-paragraph'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               type='button'
               onClick={async () => {
                 try {
                   validateForm()
-                  await register({
-                    variables: {
-                      email: email,
-                      password: password,
-                      firstname: firstname,
-                      lastname: lastname,
-                      tel: tel,
-                    },
-                  })
-                  navigate('/')
-                } catch (err) {
-                  console.log(err)
+                  console.log(tokenDecode.id)
+                  console.log(usersState.password)
+
+                  await resetPassword({ variables: { id: tokenDecode.id?.toString(), password: usersState.password } })
+                } catch (error) {
+                  console.log(error)
                 }
               }}
             >
-              Register
+              Reset Password
             </button>
-            <div className='flex flex-col'>
-              <Link
-                className='inline-block align-baseline font-bold text-sm text-lavender font-paragraph hover:text-blue-800'
-                to='/'
-              >
-                Already have an account ?
-              </Link>
-            </div>
           </div>
         </form>
       </div>

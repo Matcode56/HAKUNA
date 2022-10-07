@@ -105,6 +105,7 @@ export const typeDefs = gql`
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
     getUser(id: String): Users
+    getUserByEmail(email: String): Users
     getUsers: [Users]
   }
 
@@ -124,5 +125,7 @@ export const typeDefs = gql`
     updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: String): Users!
     deleteUser(id: String): Users!
     login(email: String, password: String): login
+    forgotPassword(email: String!): login
+    resetPassword(id: String!, password: String!): login
   }
 `

@@ -17,6 +17,8 @@ import { Profile } from './components/Profile/Profile'
 import { UsersProvider } from './hooks/users/context'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import decode from 'jwt-decode'
+import { ForgotPassword } from './components/ResetPassword/ForgotPassword'
+import { ResetPassword } from './components/ResetPassword/ResetPassword'
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -72,6 +74,8 @@ ReactDOM.render(
               <Route path='/home' element={<App />} />
               <Route path='/register' element={<Register />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='forgot-password' element={<ForgotPassword />} />
+              <Route path='reset-password' element={<ResetPassword />} />
             </Routes>
           </BrowserRouter>
         </UsersProvider>
