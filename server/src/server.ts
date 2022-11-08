@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken'
 require('dotenv').config()
 const { JWT_SECRET } = process.env
 
-const checkToken = async (token: string) => {
+export const checkToken = async (token: string) => {
   try {
     if (token) {
       const tokenVERIFY = jwt.verify(token, JWT_SECRET)
@@ -17,7 +17,7 @@ const checkToken = async (token: string) => {
     }
     return null
   } catch (error) {
-    return null
+    return error
   }
 }
 
@@ -43,7 +43,7 @@ const startApolloServer = async () => {
   await server.start()
 
   const corsOptions = {
-    origin: ['http://localhost:5000', 'https://studio.apollographql.com', 'http://localhost:3000'],
+    origin: '*',
     credentials: true,
   }
 
@@ -53,8 +53,8 @@ const startApolloServer = async () => {
     path: '/graphql',
   })
 
-  await new Promise<void>(resolve => httpServer.listen({ port: 5000 }, resolve))
-  console.log(`🚀 Server ready at http://localhost:5000${server.graphqlPath} 🚀`)
+  await new Promise<void>(resolve => httpServer.listen({ port: 5001 }, resolve))
+  console.log(`🚀 Server ready at http://localhost:5001${server.graphqlPath} 🚀`)
 
   return { server, app }
 }
