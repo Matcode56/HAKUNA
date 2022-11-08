@@ -87,8 +87,10 @@ model projects {
   createdAt     DateTime        @db.DateTime(0)
   name          String          @db.VarChar(100)
   deadline      DateTime        @db.DateTime(0)
+  owner_id Int 
   notifications notifications[]
   user_project  user_project[]
+  project_owner   users    @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_owner")
 }
 
 model tasks {
@@ -109,15 +111,19 @@ model tasks {
 }
 
 model users {
-  id            Int             @id @default(autoincrement())
-  firstname     String          @db.VarChar(50)
-  lastname      String          @db.VarChar(50)
-  email         String          @unique(map: "email") @db.VarChar(255)
-  password      String          @db.VarChar(255)
-  tel           Int
-  roles         String          @default("DEV") @db.VarChar(10)
-  notifications notifications[]
-  task_comments task_comments[]
-  user_project  user_project[]
-  user_task     user_task[]
+  id             Int             @id @default(autoincrement())
+  firstname      String          @db.VarChar(50)
+  lastname       String          @db.VarChar(50)
+  email          String          @unique(map: "email") @db.VarChar(255)
+  password       String          @db.VarChar(255)
+  tel            Int
+  roles          String          @default("DEV") @db.VarChar(10)
+  project_id  Int @default(0)
+  notifications  notifications[]
+  task_comments  task_comments[]
+  user_project   user_project[]
+  user_task      user_task[]
+  owned_projects    projects[]
+
+  @@index([project_id], map: "project_id_user")
 }
