@@ -1,14 +1,10 @@
 import { useContext } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { UsersContext } from '../../hooks/users/context'
-import decode from 'jwt-decode'
 
 export const Navigation = () => {
   const { usersState, usersDispatch } = useContext(UsersContext)
   const navigate = useNavigate()
-
-  // const token: Token = decode(localStorage.getItem('token')!)
-  // console.log(token)
 
   return (
     <>

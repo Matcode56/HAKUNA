@@ -14,32 +14,6 @@ export const usersInitialState: Users = {
 export const usersReducer = (usersState: Users, action: UsersAction): Users => {
   const { type, payload, input } = action
 
-  // const checkForm = ({ email, password, confirmPassword, firstname, lastname, tel }: Users) => {
-  //   const emailRegex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}')
-  //   const passwordRegex = new RegExp('^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,}$', 'g')
-  //   const telRegex = new RegExp('^[0-9]{10}$')
-  //   const nameRegex = new RegExp(
-  //     "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$",
-  //     'g'
-  //   )
-
-  //   if (!emailRegex.test(email)) {
-  //     return console.log('Email non valide')
-  //   } else if (!passwordRegex.test(password)) {
-  //     return console.log('Mot de passe non valide')
-  //   } else if (confirmPassword !== password) {
-  //     return console.log('Mot de passe non égal')
-  //   } else if (!nameRegex.test(firstname)) {
-  //     return console.log('Prénom non conforme')
-  //   } else if (!nameRegex.test(lastname)) {
-  //     return console.log('Nom non conforme')
-  //   } else if (!telRegex.test(tel)) {
-  //     return console.log('Téléphone non conforme')
-  //   } else {
-  //     usersState.isConnected = true
-  //   }
-  // }
-
   switch (type) {
     case 'LOGIN':
       let copyState = { ...usersState }
@@ -76,9 +50,7 @@ export const usersReducer = (usersState: Users, action: UsersAction): Users => {
         copyStateRegister.lastname = payload
       } else if (input === 'tel') {
         copyStateRegister.tel = payload
-      } /* else if (input === 'register') {
-        checkForm(copyStateRegister)
-      } */
+      }
 
       return copyStateRegister
 

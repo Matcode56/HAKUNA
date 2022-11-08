@@ -194,9 +194,6 @@ export const ResetPassword = () => {
               onClick={async () => {
                 try {
                   validateForm()
-                  console.log(tokenDecode.id)
-                  console.log(usersState.password)
-
                   await resetPassword({ variables: { id: tokenDecode.id?.toString(), password: usersState.password } })
                 } catch (error) {
                   console.log(error)
