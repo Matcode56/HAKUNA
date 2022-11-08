@@ -51,8 +51,20 @@ export const usersReducer = (usersState: Users, action: UsersAction): Users => {
       } else if (input === 'tel') {
         copyStateRegister.tel = payload
       }
-
       return copyStateRegister
+
+    case 'UPDATE':
+      let copyPrevious = { ...usersState }
+      if (input === 'firstname') {
+        copyPrevious.firstname = payload
+      } else if (input === 'lastname') {
+        copyPrevious.lastname = payload
+      } else if (input === 'email') {
+        copyPrevious.email = payload
+      } else if (input === 'phone') {
+        copyPrevious.tel = payload
+      }
+      return copyPrevious
 
     case 'RESET_PASSWORD':
       let copyStateReset = { ...usersState }

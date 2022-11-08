@@ -8,6 +8,8 @@ interface Project {
   description: string
   deadline
   createdAt
+  owner_name: string
+  project_owner: any
 }
 
 interface ProjectAction {
@@ -17,6 +19,7 @@ interface ProjectAction {
   payloadUpdate: any
   payloadCreate: any
   payloadInput: string
+  payloadUser: any
 }
 
 interface ProjectContext {

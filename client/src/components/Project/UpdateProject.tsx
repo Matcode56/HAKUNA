@@ -67,6 +67,15 @@ export const UpdateProject = () => {
                   value={update.deadline} // value want onChange
                   onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'deadline'})}
                 />
+                <h1 className="text-black  text-2xl text-center font-title my-2">
+                  Project Owner
+                </h1>
+                <input
+                  className="border  text-gray font-bold py-2 px-4 rounded w-full bg-white"
+                  type="date"
+                  value={update.deadline} // value want onChange
+                  onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'deadline'})}
+                />
                 <div className="text-center">
                 <button
                   className=" text-white shadow-lg font-bold py-2 px-4 rounded mt-5 mb-2 hover:bg-fontgray bg-lavender"

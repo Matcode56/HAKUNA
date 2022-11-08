@@ -38,7 +38,7 @@ import { ResetPassword } from './components/ResetPassword/ResetPassword'
 //   ]);
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://localhost:5001/graphql',
   credentials: 'same-origin',
 })
 
@@ -58,8 +58,6 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 })
-
-// console.log(token.role)
 
 ReactDOM.render(
   <React.StrictMode>

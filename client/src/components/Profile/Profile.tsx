@@ -1,26 +1,30 @@
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { useState, useContext, useEffect } from 'react'
 import decode from 'jwt-decode'
 import { UsersContext } from '../../hooks/users/context'
 import { GET_USER } from '../../Graphql/Queries'
+import { UPDATE_USER } from '../../Graphql/Mutations'
 
 export const Profile = () => {
+  const { usersState, usersDispatch } = useContext(UsersContext)
+  const token: Token = decode(localStorage.getItem('token')!)
+  const idUser = token.id?.toString()
+  const { data, error, loading } = useQuery(GET_USER, { variables: { id: idUser } })
+  const [baseData, setBaseData] = useState<any>({})
+  useEffect(() => {
+    console.log(usersState)
+    if (loading === false && data && baseData) {
+      setBaseData(data.getUser)
+    }
+  })
   const [isDisabled, setIsDisabled] = useState(true)
-  const [email, setEmail] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const token: Token = decode(localStorage.getItem('token')!)
-  const tokenNotDecoded = localStorage.getItem('token')
-  const idUser = token.id?.toString()
-  console.log(idUser)
-  const { data, error, loading } = useQuery(GET_USER, { variables: { id: idUser } })
+  console.log(loading)
 
-  console.log(data)
-  console.log(error)
-
-  const { usersState, usersDispatch } = useContext(UsersContext)
-
-  console.log(token)
+  const [updateUser, { data: updatedData, error: updatedError, loading: updateLoading }] = useMutation(UPDATE_USER, {
+    refetchQueries: [{ query: GET_USER, variables: { id: idUser } }, 'getUser'],
+  })
 
   function isValidEmail(email: string) {
     return /\S+@\S+\.\S+/.test(email)
@@ -32,18 +36,9 @@ export const Profile = () => {
       setErrorMessage('Email is invalid')
     } else {
       setErrorMessage('')
+      usersDispatch({ type: 'UPDATE', payload: event.target.value, input: 'email' })
     }
-
-    setEmail(event.target.value)
   }
-
-  //récupérer le token
-
-  //Utiliser UseEffect pour récup l'utilisateur via la bdd (via son id)
-
-  //Mettre les infos dans le placeholder
-
-  //mettre les placeholder en value
 
   return (
     <>
@@ -69,9 +64,10 @@ export const Profile = () => {
                             : 'shadow appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-green-400'
                         }
                         id='firstname'
+                        defaultValue={baseData.firstname}
                         type='text'
-                        placeholder='Hakuna'
                         disabled={isDisabled}
+                        onChange={e => usersDispatch({ type: 'UPDATE', payload: e.target.value, input: 'firstname' })}
                       />
                     </div>
                     <div className='mb-4'>
@@ -86,8 +82,9 @@ export const Profile = () => {
                         }
                         id='lastname'
                         type='text'
-                        placeholder='Matata'
+                        defaultValue={baseData.lastname}
                         disabled={isDisabled}
+                        onChange={e => usersDispatch({ type: 'UPDATE', payload: e.target.value, input: 'lastname' })}
                       />
                     </div>
                   </div>
@@ -104,7 +101,7 @@ export const Profile = () => {
                         }
                         id='email'
                         type='email'
-                        placeholder='Hakuna@dev.com'
+                        defaultValue={baseData.email}
                         disabled={isDisabled}
                         onChange={handleMail}
                       />
@@ -122,8 +119,9 @@ export const Profile = () => {
                         }
                         id='phone'
                         type='text'
-                        placeholder='0700000001'
+                        defaultValue={baseData.tel}
                         disabled={isDisabled}
+                        onChange={e => usersDispatch({ type: 'UPDATE', payload: e.target.value, input: 'tel' })}
                       />
                     </div>
                   </div>
@@ -132,14 +130,37 @@ export const Profile = () => {
             </div>
           </div>
           <div className='text-center'>
-            <button
-              className='custom-buttons justify-self-center font-paragraph inline-block mr-4'
-              type='button'
-              onClick={() => setIsDisabled(!isDisabled)}
-            >
-              {isDisabled ? <p>Modify</p> : <p>Save</p>}
-            </button>
+            {isDisabled ? (
+              <button
+                className='custom-buttons justify-self-center font-paragraph inline-block mr-4'
+                type='button'
+                onClick={() => setIsDisabled(!isDisabled)}
+              >
+                <p>Modify</p>
+              </button>
+            ) : (
+              <button
+                className='custom-buttons justify-self-center font-paragraph inline-block mr-4'
+                type='button'
+                onClick={async () => {
+                  await updateUser({
+                    variables: {
+                      id: token.id?.toString(),
+                      firstname: usersState.firstname,
+                      lastname: usersState.lastname,
+                      email: usersState.email,
+                      firsttelname: usersState.tel,
+                    },
+                  })
+                  setIsDisabled(!isDisabled)
+                }}
+              >
+                <p>Save</p>
+              </button>
+            )}
+
             {isDisabled ? null : <p className='mx-auto mb-0 inline-block'>You can now modify your informations</p>}
+            {updateLoading ? <p>Updating...</p> : error ? <p>Update error! {updatedError?.message}</p> : ''}
           </div>
         </div>
       </div>

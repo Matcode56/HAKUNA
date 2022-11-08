@@ -1,16 +1,30 @@
 import { gql } from '@apollo/client'
+import { buildSchema } from 'graphql'
 
 // GET_PROJECTS nous permet de récupérer les données de la base de données
 // $id est un paramètre qui nous permet de récupérer un projet en particulier
 
 export const CREATE_PROJECT = gql`
-  mutation createProject($name: String!, $description: String!, $deadline: String!, $createdAt: String!) {
-    createProject(name: $name, description: $description, deadline: $deadline, createdAt: $createdAt) {
+  mutation createProject(
+    $name: String!
+    $description: String!
+    $deadline: String!
+    $createdAt: String!
+    $project_owner: Users
+  ) {
+    createProject(
+      name: $name
+      description: $description
+      deadline: $deadline
+      createdAt: $createdAt
+      project_owner: $project_owner
+    ) {
       id
       name
       description
       deadline
       createdAt
+      project_owner
     }
   }
 `
@@ -46,6 +60,16 @@ export const LOGIN = gql`
         tel
         roles
       }
+    }
+  }
+`
+export const UPDATE_USER = gql`
+  mutation Mutation($id: String, $firstname: String, $lastname: String, $email: String, $password: String, $tel: Int) {
+    updateUser(id: $id, firstname: $firstname, lastname: $lastname, email: $email, password: $password, tel: $tel) {
+      firstname
+      lastname
+      email
+      tel
     }
   }
 `

@@ -34,6 +34,7 @@ export const ListOfProjects = () => {
 
   useEffect(() => {
     if (loading === false && data && baseData) {
+      console.log(data.getProjects)
       setBaseData(data.getProjects);
     }
     const sorted = [...baseData].sort((a, b) =>
@@ -88,6 +89,7 @@ export const ListOfProjects = () => {
         <div className='projects-list mx-auto w-full'>
           {data.getProjects.map(
             (project: {
+              project_owner: any;
               id: Key | null | undefined
               name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
               deadline: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
@@ -107,7 +109,7 @@ export const ListOfProjects = () => {
                 <div className='w-6 flex flex-col items-center'></div>
                 <div className='mx-2 -mt-1 text-fontgray w-1/4'>
                   {project.name}
-                  <div className='text-xs truncate w-full normal-case font-normal -mt-1 text-gray-500'>Théodule Célestin</div>
+                  <div className='text-xs truncate w-full normal-case font-normal -mt-1 text-gray-500'>{`Project owner: ${project.project_owner.firstname} ${project.project_owner.lastname}`}</div>
                 </div>
                 <div className=' w-full text-right text-sm'>
                   <div className='mx-2 -mt-1 text-fontgray'>Due for:</div>
