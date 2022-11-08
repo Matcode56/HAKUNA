@@ -14,6 +14,7 @@ import { ProjectProvider } from './hooks/projects/context'
 import { Login } from './components/Login'
 import { Register } from './components/Register'
 import { Profile } from './components/Profile'
+import { UsersProvider } from './hooks/users/context'
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -33,7 +34,7 @@ import { Profile } from './components/Profile'
 //   ]);
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://localhost:5001/graphql',
   credentials: 'same-origin',
 })
 
@@ -58,6 +59,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <ProjectProvider>
+        <UsersProvider>
         <BrowserRouter>
           <Navigation />
           <Routes>
@@ -68,6 +70,7 @@ ReactDOM.render(
             <Route path='/profile' element={<Profile />} />
           </Routes>
         </BrowserRouter>
+        </UsersProvider>
       </ProjectProvider>
     </ApolloProvider>
   </React.StrictMode>,

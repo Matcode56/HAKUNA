@@ -8,6 +8,8 @@ interface Project {
   description: string
   deadline
   createdAt
+  owner_name: string
+  project_owner: any
 }
 
 interface ProjectAction {
@@ -16,7 +18,8 @@ interface ProjectAction {
   payloadId: number
   payloadUpdate: any
   payloadCreate: any
-  payloadInput: string
+  payloadInput: string,
+  payloadUser: any
 }
 
 interface ProjectContext {
@@ -32,8 +35,9 @@ interface Users {
   lastname?: string
   email: string
   password?: string
-  tel?: number
-  roles: string
+  tel?: number | string
+  roles?: string
+  isConnected: boolean
 }
 
 interface Token {
@@ -46,7 +50,8 @@ interface Token {
 
 interface UsersAction {
   type: string
-  payload: Users
+  payload: string
+  input: string
   payloadLogin: string
   payloadInput: string
   payloadMail: string
@@ -54,6 +59,6 @@ interface UsersAction {
 }
 
 interface UsersContext {
-  usersState: Users[]
+  usersState: Users
   usersDispatch: Dispatch<UsersAction>
 }

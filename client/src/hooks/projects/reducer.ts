@@ -5,15 +5,16 @@ export const projectInitialState: Project[] = [
     description: '',
     deadline: '',
     createdAt: '',
+    project_owner: {},
+    owner_name: ''
   },
 ]
 
 export const projectsReducer = (projectState: Project[], action: ProjectAction): Project[] => {
-  const { type, payload, payloadId, payloadUpdate, payloadCreate, payloadInput } = action
+  const { type, payload, payloadId, payloadUpdate, payloadCreate, payloadInput, payloadUser } = action
 
   switch (type) {
     case 'GET_ID':
-      console.log(payloadId)
 
       projectState = payload.filter((el) => el.id === payloadId)
       let copyDeadlineFormat = { ...projectState[0] }
@@ -46,7 +47,16 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
         copyCreate.description = payloadCreate
       } else if (payloadInput === 'deadline') {
         copyCreate.deadline = payloadCreate
+      } else if (payloadInput === 'owner') {
+        copyCreate.owner_name = payloadCreate
+        const Int = setInterval(() => {
+          if(payloadUser[0] !== undefined) copyCreate.project_owner = payloadUser[0]
+          console.log(copyCreate.project_owner)
+          clearInterval(Int)
+        }, 100)
       }
+
+
 
       projectState[0] = copyCreate
       return [...projectState]
