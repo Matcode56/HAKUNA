@@ -58,7 +58,7 @@ export const Mutation = {
         firstname: args.firstname,
         lastname: args.lastname,
         password: password,
-        tel: args.tel,
+        tel: Number(args.tel),
         email: args.email,
       },
     })

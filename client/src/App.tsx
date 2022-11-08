@@ -1,16 +1,21 @@
 /* eslint-disable no-restricted-globals */
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { UsersContext } from './hooks/users/context'
+import decode from 'jwt-decode'
 
 export const App = () => {
   const [loading, setLoading] = useState(true)
+  const { usersState, usersDispatch } = useContext(UsersContext)
 
   useEffect(() => {
-    if (!localStorage.getItem('token') && loading === true) {
-      setLoading(true)
+    const token = localStorage.getItem('token')
+    if (token) {
+      usersDispatch({ type: 'LOGIN', input: 'login' })
     } else {
-      setLoading(false)
+      const url = window.location.href
+      document.location.href = '/'
     }
-  }, [loading])
+  }, [])
 
   return (
     <div className='flex justify-center pt-10'>
