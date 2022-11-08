@@ -7,13 +7,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import './scss/style.scss'
 import { App } from './App'
-import { Navigation } from './components/Navbar'
+import { Navigation } from './components/Navbar/Navbar'
 import { Projects } from './components/Project/Projects'
 import reportWebVitals from './reportWebVitals'
 import { ProjectProvider } from './hooks/projects/context'
-import { Login } from './components/Login'
-import { Register } from './components/Register'
-import { Profile } from './components/Profile'
+import { Login } from './components/Login/Login'
+import { Register } from './components/Register/Register'
+import { Profile } from './components/Profile/Profile'
+import { UsersProvider } from './hooks/users/context'
+import { ProtectedRoute } from './routes/ProtectedRoute'
+import decode from 'jwt-decode'
+import { ForgotPassword } from './components/ResetPassword/ForgotPassword'
+import { ResetPassword } from './components/ResetPassword/ResetPassword'
 
 // Attraper les erreurs de l'API GraphQL et les afficher dans la console
 
@@ -54,20 +59,26 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
+// console.log(token.role)
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <ProjectProvider>
-        <BrowserRouter>
-          <Navigation />
-          <Routes>
-            <Route path='/' element={<Login />} />
-            <Route path='/projects' element={<Projects />} />
-            <Route path='/home' element={<App />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/profile' element={<Profile />} />
-          </Routes>
-        </BrowserRouter>
+        <UsersProvider>
+          <BrowserRouter>
+            <Navigation />
+            <Routes>
+              <Route path='/' element={<Login />} />
+              <Route path='/projects' element={<Projects />} />
+              <Route path='/home' element={<App />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='forgot-password' element={<ForgotPassword />} />
+              <Route path='reset-password' element={<ResetPassword />} />
+            </Routes>
+          </BrowserRouter>
+        </UsersProvider>
       </ProjectProvider>
     </ApolloProvider>
   </React.StrictMode>,

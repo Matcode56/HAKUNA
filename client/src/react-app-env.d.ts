@@ -28,12 +28,14 @@ interface ProjectContext {
 
 interface Users {
   id?
-  firstname?: string
-  lastname?: string
-  email: string
-  password?: string
-  tel?: number
-  roles: string
+  firstname?: string | any
+  lastname?: string | any
+  email: string | any
+  password?: string | any
+  confirmPassword?: string | any
+  tel?: number | string | any
+  role?: string | any
+  isConnected: boolean
 }
 
 interface Token {
@@ -46,14 +48,22 @@ interface Token {
 
 interface UsersAction {
   type: string
-  payload: Users
+  payload: string
+  input: string
   payloadLogin: string
   payloadInput: string
   payloadMail: string
   payloadRoles: string
+  confirm: string
 }
 
 interface UsersContext {
-  usersState: Users[]
+  usersState: Users
   usersDispatch: Dispatch<UsersAction>
+}
+
+/* Routes */
+interface ProtectedRoute {
+  role: string | undefined
+  // children: React.ReactNode
 }

@@ -114,7 +114,7 @@ model users {
   lastname      String          @db.VarChar(50)
   email         String          @unique(map: "email") @db.VarChar(255)
   password      String          @db.VarChar(255)
-  tel           Int
+  tel           String          @db.VarChar(10)
   roles         String          @default("DEV") @db.VarChar(10)
   notifications notifications[]
   task_comments task_comments[]

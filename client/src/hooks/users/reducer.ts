@@ -1,40 +1,69 @@
-export const usersInitialState: Users[] = [
-  {
-    email: '',
-    password: '',
-    roles: '',
-  },
-]
+import decode from 'jwt-decode'
 
-export const usersReducer = (usersState: Users[], action: UsersAction): Users[] => {
-  const { type, payload, payloadLogin, payloadInput, payloadRoles, payloadMail } = action
+export const usersInitialState: Users = {
+  email: '',
+  password: '',
+  confirmPassword: '',
+  firstname: '',
+  lastname: '',
+  tel: '',
+  role: '',
+  isConnected: false,
+}
+
+export const usersReducer = (usersState: Users, action: UsersAction): Users => {
+  const { type, payload, input } = action
 
   switch (type) {
     case 'LOGIN':
-      let copyCreate = { ...usersState[0] }
+      let copyState = { ...usersState }
+      if (input === 'email') {
+        copyState.email = payload
+      } else if (input === 'password') {
+        copyState.password = payload
+      } else if (input === 'login') {
+        const token: Token = decode(localStorage.getItem('token')!)
+        copyState.role = token.role
+        copyState.isConnected = true
+      }
+      return copyState
 
-      if (payloadInput === 'email') {
-        copyCreate.email = payloadLogin
-      } else if (payloadInput === 'password') {
-        copyCreate.password = payloadLogin
+    case 'LOGOUT':
+      usersState.email = ''
+      usersState.password = ''
+      usersState.role = ''
+      usersState.isConnected = false
+      return usersState
+
+    case 'REGISTER':
+      let copyStateRegister = { ...usersState }
+
+      if (input === 'email') {
+        copyStateRegister.email = payload
+      } else if (input === 'password') {
+        copyStateRegister.password = payload
+      } else if (input === 'confirmPassword') {
+        copyStateRegister.confirmPassword = payload
+      } else if (input === 'firstname') {
+        copyStateRegister.firstname = payload
+      } else if (input === 'lastname') {
+        copyStateRegister.lastname = payload
+      } else if (input === 'tel') {
+        copyStateRegister.tel = payload
       }
 
-      usersState[0] = copyCreate
-      return [...usersState]
+      return copyStateRegister
 
-    case 'SUCCESS_LOGIN':
-      let copyUser = { ...usersState[0] }
+    case 'RESET_PASSWORD':
+      let copyStateReset = { ...usersState }
 
-      copyUser.password = ''
-      if (payload !== undefined) {
-        copyUser.roles = payload.roles
-      } else {
-        copyUser.roles = payloadRoles
-        copyUser.email = payloadMail
+      if (input === 'password') {
+        copyStateReset.password = payload
+      } else if (input === 'confirmPassword') {
+        copyStateReset.confirmPassword = payload
       }
 
-      usersState[0] = copyUser
-      return [...usersState]
+      return copyStateReset
 
     default:
       return usersState

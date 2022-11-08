@@ -42,15 +42,14 @@ export const typeDefs = gql`
     firstname: String
     lastname: String
     password: String
-    email: String 
-    tel: Int
+    email: String
+    tel: String
     roles: String
     Notifications: [Notifications]
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
   }
-
 
   type task_comments {
     id: ID!
@@ -106,17 +105,27 @@ export const typeDefs = gql`
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
     getUser(id: String): Users
+    getUserByEmail(email: String): Users
     getUsers: [Users]
   }
 
   type Mutation {
     createProject(createdAt: String, description: String, name: String, deadline: String): Projects!
-    createProjectNested(id: String, createdAt: String, description: String, name: String, deadline: String, user_project: String): Projects!
+    createProjectNested(
+      id: String
+      createdAt: String
+      description: String
+      name: String
+      deadline: String
+      user_project: String
+    ): Projects!
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
-    createUser(firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
-    updateUser(id: String,firstname: String, lastname: String, password: String, email: String, tel: Int): Users!
+    createUser(firstname: String, lastname: String, password: String, email: String, tel: String): Users!
+    updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: String): Users!
     deleteUser(id: String): Users!
     login(email: String, password: String): login
+    forgotPassword(email: String!): login
+    resetPassword(id: String!, password: String!): login
   }
 `

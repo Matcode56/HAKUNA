@@ -1,7 +1,7 @@
 import { prisma } from '../../database'
 import jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcryptjs'
-import { checkToken } from '../middlewares/resolversMiddlewares'
+import { sendMail } from '../../mail/mailer'
 
 require('dotenv').config()
 const { JWT_SECRET } = process.env
@@ -38,7 +38,10 @@ export const Mutation = {
     })
   },
 
-  createUser: async (parent: any, args: { firstname: string; lastname: string; email: string; password: string; tel: number }) => {
+  createUser: async (
+    parent: any,
+    args: { firstname: string; lastname: string; email: string; password: string; tel: string }
+  ) => {
     const password: string = await cryptagePassword(args.password)
 
     async function cryptagePassword(password: string) {
@@ -62,7 +65,6 @@ export const Mutation = {
     args: { id: String; firstname: string; lastname: string; email: string; password: string; tel: number },
     decodedToken: any
   ) => {
-    checkToken(decodedToken)
     const idUser = decodedToken.id
     const idUserToUpdate = Number(args.id)
     const roleUser = decodedToken.role
@@ -94,7 +96,6 @@ export const Mutation = {
   },
 
   deleteUser: (parent: any, args: { id: String }, decodedToken: any) => {
-    checkToken(decodedToken)
     const idUser = decodedToken.id
     const idUserToDelete = Number(args.id)
     const roleUser = decodedToken.role
@@ -130,5 +131,50 @@ export const Mutation = {
     } catch (error) {
       throw new Error(error.message)
     }
+  },
+
+  forgotPassword: async (parent: any, args: { email: string }) => {
+    try {
+      const user = await prisma.users.findUnique({ where: { email: args.email } })
+      if (!user) throw new Error('No user with that email')
+
+      const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          role: user.roles,
+        },
+        JWT_SECRET,
+        {
+          expiresIn: '1d',
+        }
+      )
+
+      sendMail(args.email, token)
+
+      return { token, user }
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  },
+
+  resetPassword: async (parent: any, args: { id: string; password: string }) => {
+    const user = await prisma.users.findUnique({ where: { id: Number(args.id) } })
+    if (!user) throw new Error('id invalid')
+
+    const password: string = await cryptagePassword(args.password)
+
+    async function cryptagePassword(password: string) {
+      const salt = await bcrypt.genSalt()
+      const passwordHashed = await bcrypt.hash(password, salt)
+      return passwordHashed
+    }
+
+    return prisma.users.update({
+      where: { id: Number(args.id) },
+      data: {
+        password: password,
+      },
+    })
   },
 }
