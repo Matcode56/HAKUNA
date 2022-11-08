@@ -1,10 +1,12 @@
 import { useContext } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { UsersContext } from '../../hooks/users/context'
+import { Home, MultiplePages, TaskList } from 'iconoir-react'
 
 export const Navigation = () => {
   const { usersState, usersDispatch } = useContext(UsersContext)
   const navigate = useNavigate()
+  const currentPage = window.location.pathname
 
   return (
     <>
@@ -38,24 +40,39 @@ export const Navigation = () => {
               </button>
             )}
           </div>
-          <img src='/icons/HakunaLogo.png' alt='logo' className='fixed w-40' />
+          <img src='/icons/HakunaLogo.png' alt='logo' className='fixed logo-nav' />
           <nav className='bg-transparent  border-l-8 border-lavender h-screen flex flex-col justify-center fixed'>
             <ul>
-              <li className='bg-lavender rounded-3xl -ml-4 flex justify-end pr-3 py-1 px-5 mb-20'>
+              <li
+                className={`bg-lavender flex justify-end pr-3 py-1 px-5 mb-20 ${
+                  currentPage === '/home' ? 'is-active' : ''
+                }`}
+              >
                 <NavLink to='/home' data-testid='Home'>
-                  <img src='/icons/home.svg' alt='' />
+                  <p>Home</p>
+                  <Home color={currentPage === '/home' ? 'black' : 'white'} height={34} width={34} />
                 </NavLink>
               </li>
               {usersState.role !== 'DEV' && (
-                <li className='bg-lavender rounded-3xl -ml-4 flex justify-end pr-3 py-1 px-5 mb-20'>
+                <li
+                  className={`bg-lavender flex justify-end pr-3 py-1 px-5 mb-20 ${
+                    currentPage === '/projects' ? 'is-active' : ''
+                  }`}
+                >
                   <NavLink to='/projects' data-testid='Projects'>
-                    <img src='/icons/projects.svg' alt='' />
+                    <p>Projects</p>
+                    <TaskList color={currentPage === '/projects' ? 'black' : 'white'} height={34} width={34} />
                   </NavLink>
                 </li>
               )}
-              <li className='bg-lavender rounded-3xl -ml-4 flex justify-end pr-3 py-1 px-5 mb-20'>
+              <li
+                className={`bg-lavender flex justify-end pr-3 py-1 px-5 mb-20 ${
+                  currentPage === '/profile' ? 'is-active' : ''
+                }`}
+              >
                 <NavLink to='/profile' data-testid='Profile'>
-                  <img src='/icons/userProfile.svg' alt='' />
+                  <p>Users</p>
+                  <MultiplePages color={currentPage === '/profile' ? 'black' : 'white'} height={34} width={34} />
                 </NavLink>
               </li>
             </ul>

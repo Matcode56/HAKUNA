@@ -1,0 +1,45 @@
+.logo-nav {
+  margin-left: 33px;
+  margin-top: 25px;
+  width: 120px;
+  height: 100px;
+}
+nav {
+  ul {
+    li {
+      border-radius: 0 15px 15px 0;
+      width: 55px;
+      height: 55px;
+      transition: all 400ms;
+
+      &.is-active {
+        width: 145px;
+        background-color: #fde6a5;
+        transition: all 400ms ease;
+
+        a {
+          width: 100%;
+
+          p {
+            display: block;
+          }
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        p {
+          display: none;
+          font-size: 20px;
+        }
+
+        img {
+          width: 35px;
+          height: 35px;
+        }
+      }
+    }
+  }
+}

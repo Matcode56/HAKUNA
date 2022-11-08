@@ -18,7 +18,7 @@ export const CreateProjects = () => {
 
   return (
     <>
-      {projectState.map((create) => (
+      {projectState.map(create => (
         <div className='modal-create-project mt-10' key={'1'}>
           <button
             type='button'
@@ -40,7 +40,9 @@ export const CreateProjects = () => {
                   type='text'
                   placeholder='Name'
                   value={create.name}
-                  onChange={(e) => projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'name' })}
+                  onChange={e =>
+                    projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'name' })
+                  }
                 />
                 <h1 className='text-black text-2xl text-center font-title my-2'>Description</h1>
                 <input
@@ -48,14 +50,18 @@ export const CreateProjects = () => {
                   type='text'
                   value={create.description}
                   placeholder='Description'
-                  onChange={(e) => projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'desc' })}
+                  onChange={e =>
+                    projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'desc' })
+                  }
                 />
                 <h1 className='text-black  text-2xl text-center font-title my-2'>Deadline</h1>
                 <input
                   className='border  text-gray font-bold py-2 px-4 rounded w-full bg-white'
                   type='date'
                   value={create.deadline}
-                  onChange={(e) => projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'deadline' })}
+                  onChange={e =>
+                    projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'deadline' })
+                  }
                 />
                 <div className='text-center'>
                   <button
