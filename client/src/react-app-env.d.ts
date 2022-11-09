@@ -9,7 +9,7 @@ interface Project {
   deadline
   createdAt
   owner_name: string
-  project_owner: any
+  owner_id: number
 }
 
 interface ProjectAction {

@@ -44,7 +44,7 @@ const startApolloServer = async () => {
   await server.start()
 
   const corsOptions = {
-    origin: ['http://localhost:5001', 'https://studio.apollographql.com', 'http://localhost:3000'],
+    origin: '*',
     credentials: true,
   }
 

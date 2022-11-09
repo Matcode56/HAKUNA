@@ -21,6 +21,7 @@ export const typeDefs = gql`
     Tasks: [Tasks]
     user_project: [user_project]
     project_owner: Users
+    owner_id: Int
   }
 
   type Tasks {
@@ -43,8 +44,8 @@ export const typeDefs = gql`
     firstname: String
     lastname: String
     password: String
-    email: String
-    tel: String
+    email: String 
+    tel: Int
     roles: String
     Notifications: [Notifications]
     task_comments: [task_comments]
@@ -52,6 +53,17 @@ export const typeDefs = gql`
     user_task: [user_task]
     owned_projects: [Projects]
   }
+
+  input UserInput {
+    id: ID!
+    firstname: String
+    lastname: String
+    password: String
+    email: String 
+    tel: Int
+    roles: String
+  }
+
 
   type task_comments {
     id: ID!
@@ -106,13 +118,19 @@ export const typeDefs = gql`
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
-    getUser(id: String): Users
     getUserByEmail(email: String): Users
+    getUser(id: String): Users
     getUsers: [Users]
   }
 
+  input User{
+    id: ID
+    firstname: String
+    lastname: String
+  }
+
   type Mutation {
-    createProject(createdAt: String, description: String, name: String, deadline: String): Projects!
+    createProject(createdAt: String, description: String, name: String, deadline: String, owner_id: Int): Projects!
     createProjectNested(
       id: String
       createdAt: String
@@ -121,7 +139,7 @@ export const typeDefs = gql`
       deadline: String
       user_project: String
     ): Projects!
-    updateProject(id: String, description: String, name: String, deadline: String): Projects!
+    updateProject(id: String, description: String, name: String, deadline: String, owner_id: Int): Projects!
     deleteProject(id: String): Projects!
     createUser(firstname: String, lastname: String, password: String, email: String, tel: String): Users!
     updateUser(id: String, firstname: String, lastname: String, password: String, email: String, tel: String): Users!
