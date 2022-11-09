@@ -4,6 +4,7 @@ import { CREATE_PROJECT } from '../../Graphql/Mutations'
 import { GET_PROJECTS } from '../../Graphql/Queries'
 import { GET_USERS } from '../../Graphql/Queries'
 import { ProjectContext } from '../../hooks/projects/context'
+import { Project } from '../../react-app-env'
 
 export const CreateProjects = () => {
   const { projectState, projectDispatch } = useContext(ProjectContext)
@@ -20,8 +21,8 @@ export const CreateProjects = () => {
 
   return (
     <>
-      {projectState.map(create => (
-        <div className='modal-create-project mt-10' key={'1'}>
+      {projectState.map((create: Project) => (
+        <div className='modal-create-project mt-10' key={create.id}>
           <button
             type='button'
             className='close-buttons'
@@ -62,7 +63,11 @@ export const CreateProjects = () => {
                   type='date'
                   value={create.deadline}
                   onChange={e =>
-                    projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'deadline' })
+                    projectDispatch({
+                      type: 'CREATE_PROJECT',
+                      payloadCreate: e.target.value,
+                      payloadInput: 'deadline',
+                    })
                   }
                 />
                 <h1 className='text-black  text-2xl text-center font-title my-2'>Project Owner</h1>
@@ -72,7 +77,14 @@ export const CreateProjects = () => {
                   list='Users'
                   placeholder='Théodule Petiprez'
                   onChange={(e: { target: { value: any } }) =>
-                    projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadUser: dataUsers.getUsers.filter((user: { firstname: any; id: any }) => user.firstname === (e.target.value).split(' ')[0]), payloadInput: 'owner' })
+                    projectDispatch({
+                      type: 'CREATE_PROJECT',
+                      payloadCreate: e.target.value,
+                      payloadUser: dataUsers.getUsers.filter(
+                        (user: { firstname: any; id: any }) => user.firstname === e.target.value.split(' ')[0]
+                      ),
+                      payloadInput: 'owner',
+                    })
                   }
                 />
                 <datalist id='Users'>
@@ -81,7 +93,7 @@ export const CreateProjects = () => {
                   ) : (
                     dataUsers.getUsers.map((user: { firstname: string; lastname: string; id: Number }) => {
                       return (
-                        <option>
+                        <option key={user.id.toString()}>
                           {user.firstname} {user.lastname}
                         </option>
                       )
@@ -98,7 +110,7 @@ export const CreateProjects = () => {
                           description: create.description,
                           deadline: new Date(`${create.deadline}`).toISOString(),
                           createdAt,
-                          project_owner: create.project_owner
+                          project_owner: create.project_owner,
                         },
                       })
                       create.name = ''

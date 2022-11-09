@@ -9,6 +9,38 @@
       width: 81%;
       height: 100%;
     }
+
+    .projectsDropdown {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      .sortDropdown,
+      .filtersDropdown {
+        margin-right: 45px;
+        label {
+          text-align: center;
+        }
+        display: flex;
+        flex-direction: column;
+
+        select {
+          -moz-appearance: none; /* Firefox */
+          -webkit-appearance: none; /* Safari and Chrome */
+          appearance: none;
+          height: 40px;
+          padding-left: 5%;
+          padding-right: 5%;
+          width: 175px;
+          text-align: center;
+          font-size: 1rem;
+          background-color: $lavender;
+          color: white;
+          font-weight: 500;
+          border-radius: 3rem;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+      }
+    }
   }
   .custom-buttons {
     @include buttons;

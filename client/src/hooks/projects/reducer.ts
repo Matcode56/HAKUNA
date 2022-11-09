@@ -1,3 +1,5 @@
+import { Project, ProjectAction } from '../../react-app-env'
+
 export const projectInitialState: Project[] = [
   {
     id: '',
@@ -6,7 +8,7 @@ export const projectInitialState: Project[] = [
     deadline: '',
     createdAt: '',
     project_owner: {},
-    owner_name: ''
+    owner_name: '',
   },
 ]
 
@@ -15,11 +17,14 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
 
   switch (type) {
     case 'GET_ID':
-
-      projectState = payload.filter((el) => el.id === payloadId)
+      projectState = payload.filter(el => el.id === payloadId)
       let copyDeadlineFormat = { ...projectState[0] }
       /* Convert TimeStamp to Date and reverse to match input date format (yyyy-mm-dd) */
-      copyDeadlineFormat.deadline = new Date((projectState[0].deadline as number) * 1).toLocaleDateString().split('/').reverse().join('-')
+      copyDeadlineFormat.deadline = new Date((projectState[0].deadline as number) * 1)
+        .toLocaleDateString()
+        .split('/')
+        .reverse()
+        .join('-')
       projectState[0] = copyDeadlineFormat
 
       return [...projectState]
@@ -50,13 +55,11 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
       } else if (payloadInput === 'owner') {
         copyCreate.owner_name = payloadCreate
         const Int = setInterval(() => {
-          if(payloadUser[0] !== undefined) copyCreate.project_owner = payloadUser[0]
+          if (payloadUser[0] !== undefined) copyCreate.project_owner = payloadUser[0]
           console.log(copyCreate.project_owner)
           clearInterval(Int)
         }, 100)
       }
-
-
 
       projectState[0] = copyCreate
       return [...projectState]

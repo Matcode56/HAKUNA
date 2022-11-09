@@ -2,7 +2,7 @@
 
 /* Projects */
 
-interface Project {
+export interface Project {
   id
   name: string
   description: string
@@ -12,7 +12,7 @@ interface Project {
   project_owner: any
 }
 
-interface ProjectAction {
+export interface ProjectAction {
   type: string
   payload: Project[]
   payloadId: number
@@ -22,14 +22,14 @@ interface ProjectAction {
   payloadUser: any
 }
 
-interface ProjectContext {
+export interface ProjectContext {
   projectState: Project[]
   projectDispatch: Dispatch<ProjectAction>
 }
 
 /* Users */
 
-interface Users {
+export interface Users {
   id?
   firstname?: string | any
   lastname?: string | any
@@ -41,7 +41,7 @@ interface Users {
   isConnected: boolean
 }
 
-interface Token {
+export interface Token {
   id?: number
   email?: string
   exp?: number
@@ -49,7 +49,7 @@ interface Token {
   role?: string
 }
 
-interface UsersAction {
+export interface UsersAction {
   type: string
   payload: string
   input: string
@@ -60,13 +60,13 @@ interface UsersAction {
   confirm: string
 }
 
-interface UsersContext {
+export interface UsersContext {
   usersState: Users
   usersDispatch: Dispatch<UsersAction>
 }
 
 /* Routes */
-interface ProtectedRoute {
+export interface ProtectedRoute {
   role: string | undefined
   // children: React.ReactNode
 }
