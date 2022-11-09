@@ -20,6 +20,7 @@ export const typeDefs = gql`
     Notifications: [Notifications]
     Tasks: [Tasks]
     user_project: [user_project]
+    project_owner: Users
   }
 
   type Tasks {
@@ -49,6 +50,7 @@ export const typeDefs = gql`
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
+    owned_projects: [Projects]
   }
 
   type task_comments {

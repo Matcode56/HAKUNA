@@ -1,10 +1,16 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { UsersContext } from '../../hooks/users/context'
-import { Home, MultiplePages, TaskList } from 'iconoir-react'
+import { Home, MultiplePages, TaskList, LogOut } from 'iconoir-react'
+import decode from 'jwt-decode'
+import { GET_USER } from '../../Graphql/Queries'
+import { useQuery } from '@apollo/client'
 
 export const Navigation = () => {
   const { usersState, usersDispatch } = useContext(UsersContext)
+  const token: Token = decode(localStorage.getItem('token')!)
+  const idUser = token.id?.toString()
+  const { data, loading } = useQuery(GET_USER, { variables: { id: idUser } })
   const navigate = useNavigate()
   const currentPage = window.location.pathname
 
@@ -23,24 +29,25 @@ export const Navigation = () => {
           <div className='text-right'>
             {usersState.isConnected ? (
               <button
-                className='absolute top-5 right-20 text-right bg-lavender text-white px-5 py-1 rounded-xl drop-shadow-md'
+                className='connect-btn absolute top-5 right-20 text-right bg-lavender text-white px-5 py-1 rounded-xl drop-shadow-md'
                 onClick={() => {
                   localStorage.removeItem('token')
                   usersDispatch({ type: 'LOGOUT' })
                   navigate('/')
                 }}
               >
-                Se déconnecter
+                <p>{loading === false && data && data.getUser.firstname}</p>
+                <LogOut color={'white'} height={28} width={24} strokeWidth={2} />
               </button>
             ) : (
-              <button className='absolute top-5 right-20 text-right bg-lavender text-white px-5 py-1 rounded-xl drop-shadow-md'>
+              <button className='connect-btn absolute top-5 right-20 text-right bg-lavender text-white px-5 py-1 rounded-xl drop-shadow-md'>
                 <Link to='/' data-testid='Projects'>
                   Se connecter
                 </Link>
               </button>
             )}
           </div>
-          <img src='/icons/HakunaLogo.png' alt='logo' className='fixed logo-nav' />
+          <img src='/icons/logo.png' alt='logo' className='fixed logo-nav' />
           <nav className='bg-transparent  border-l-8 border-lavender h-screen flex flex-col justify-center fixed'>
             <ul>
               <li

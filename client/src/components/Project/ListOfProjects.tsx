@@ -1,83 +1,72 @@
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  Key,
-  ReactChild,
-  ReactFragment,
-  ReactPortal,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
-import { GET_PROJECTS } from "../../Graphql/Queries";
-import { DELETE_PROJECT } from "../../Graphql/Mutations";
-import { ProjectContext } from "../../hooks/projects/context";
-import Select from "react-select";
+import { useQuery, useMutation } from '@apollo/client'
+import { Key, ReactChild, ReactFragment, ReactPortal, useContext, useState, useEffect } from 'react'
+import { GET_PROJECTS } from '../../Graphql/Queries'
+import { DELETE_PROJECT } from '../../Graphql/Mutations'
+import { ProjectContext } from '../../hooks/projects/context'
+import Select from 'react-select'
 
 export const ListOfProjects = () => {
-  const { projectDispatch } = useContext(ProjectContext);
+  const { projectDispatch } = useContext(ProjectContext)
 
   /* Query and Mutation */
   const { data, error, loading } = useQuery(GET_PROJECTS)
   const [deleteProject] = useMutation(DELETE_PROJECT, {
+    refetchQueries: [{ query: GET_PROJECTS }, 'getProjects'],
+  })
 
-    refetchQueries: [{ query: GET_PROJECTS }, "getProjects"],
-  });
-
-  const [sortedData, setSortedData] = useState<any[]>([]);
-  const [sortProperty, setSortProperty] = useState("");
-  const [baseData, setBaseData] = useState<any[]>([]);
+  const [sortedData, setSortedData] = useState<any[]>([])
+  const [sortProperty, setSortProperty] = useState('')
+  const [baseData, setBaseData] = useState<any[]>([])
 
   const options = [
-    { value: "deadline", label: "Date" },
-    { value: "name", label: "Name" },
-  ];
+    { value: 'deadline', label: 'Date' },
+    { value: 'name', label: 'Name' },
+  ]
 
   useEffect(() => {
     if (loading === false && data && baseData) {
-      setBaseData(data.getProjects);
+      setBaseData(data.getProjects)
     }
-    const sorted = [...baseData].sort((a, b) =>
-      a[sortProperty] > b[sortProperty] ? 1 : -1
-    );
-    setSortedData(sorted);
-  }, [baseData, data, loading, sortProperty]);
+    const sorted = [...baseData].sort((a, b) => (a[sortProperty] > b[sortProperty] ? 1 : -1))
+    setSortedData(sorted)
+  }, [baseData, data, loading, sortProperty])
 
   const selectStyle = {
     control: (styles: any) => {
       return {
         ...styles,
-        backgroundColor: "#8188FE",
-        color: "white",
-        borderRadius: "15px",
-        "&:hover": {
-          borderColor: "#676ccb",
+        backgroundColor: '#8188FE',
+        color: 'white',
+        borderRadius: '15px',
+        '&:hover': {
+          borderColor: '#676ccb',
         },
-      };
+      }
     },
     placeholder: (styles: any) => ({
       ...styles,
-      backgroundColor: "",
-      color: "white",
+      backgroundColor: '',
+      color: 'white',
     }),
     dropdownIndicator: (styles: any) => ({
       ...styles,
-      color: "white",
+      color: 'white',
     }),
     singleValue: (styles: any) => ({
       ...styles,
-      color: "white",
+      color: 'white',
     }),
     option: (styles: any) => {
       return {
         ...styles,
-        backgroundColor: "#8188FE",
-        color: "white",
-        "&:hover": {
-          backgroundColor: "#676ccb",
+        backgroundColor: '#8188FE',
+        color: 'white',
+        '&:hover': {
+          backgroundColor: '#676ccb',
         },
-      };
+      }
     },
-  };
+  }
   return (
     <>
       {loading ? (
@@ -88,6 +77,7 @@ export const ListOfProjects = () => {
         <div className='projects-list mx-auto w-full'>
           {data.getProjects.map(
             (project: {
+              project_owner: any
               id: Key | null | undefined
               name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
               deadline: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
@@ -107,7 +97,7 @@ export const ListOfProjects = () => {
                 <div className='w-6 flex flex-col items-center'></div>
                 <div className='mx-2 -mt-1 text-fontgray w-1/4'>
                   {project.name}
-                  <div className='text-xs truncate w-full normal-case font-normal -mt-1 text-gray-500'>Théodule Célestin</div>
+                  <div className='text-xs truncate w-full normal-case font-normal -mt-1 text-gray-500'>{`Project owner: ${project.project_owner.firstname} ${project.project_owner.lastname}`}</div>
                 </div>
                 <div className=' w-full text-right text-sm'>
                   <div className='mx-2 -mt-1 text-fontgray'>Due for:</div>
@@ -127,7 +117,11 @@ export const ListOfProjects = () => {
                 <button
                   className=' font-bold py-2 px-4 rounded w-12 h-12 '
                   data-id={project.id}
-                  onClick={() => document.querySelector(`button[data-id='${project.id}'] ~ .modal-delete`)?.classList.toggle('is-active')}
+                  onClick={() =>
+                    document
+                      .querySelector(`button[data-id='${project.id}'] ~ .modal-delete`)
+                      ?.classList.toggle('is-active')
+                  }
                 >
                   <img src='/icons/delete.svg' alt='delete' />
                 </button>
@@ -141,7 +135,10 @@ export const ListOfProjects = () => {
                     >
                       Yes
                     </button>
-                    <button type='button' onClick={() => document.querySelector('.modal-delete')?.classList.remove('is-active')}>
+                    <button
+                      type='button'
+                      onClick={() => document.querySelector('.modal-delete')?.classList.remove('is-active')}
+                    >
                       No
                     </button>
                   </div>

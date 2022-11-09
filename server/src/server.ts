@@ -34,7 +34,7 @@ const startApolloServer = async () => {
     csrfPrevention: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
-      const token = req.headers.authorization || ''
+      const token = req.headers.authorization.split(' ')[1]
       const decodedToken = checkToken(token)
       return decodedToken
     },

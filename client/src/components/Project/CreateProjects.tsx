@@ -1,7 +1,8 @@
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useContext } from 'react'
 import { CREATE_PROJECT } from '../../Graphql/Mutations'
 import { GET_PROJECTS } from '../../Graphql/Queries'
+import { GET_USERS } from '../../Graphql/Queries'
 import { ProjectContext } from '../../hooks/projects/context'
 
 export const CreateProjects = () => {
@@ -11,7 +12,7 @@ export const CreateProjects = () => {
   let mm = String(dateNow.getMonth() + 1).padStart(2, '0') //January is 0!
   let yyyy = dateNow.getFullYear()
   let createdAt = new Date(`${yyyy}-${mm}-${dd}`).toISOString()
-
+  const { data: dataUsers, error: errorUsers, loading: loadingUsers } = useQuery(GET_USERS)
   const [createProject, { error, loading }] = useMutation(CREATE_PROJECT, {
     refetchQueries: [{ query: GET_PROJECTS }, 'getProjects'],
   })
@@ -63,6 +64,36 @@ export const CreateProjects = () => {
                     projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadInput: 'deadline' })
                   }
                 />
+                <h1 className='text-black  text-2xl text-center font-title my-2'>Project Owner</h1>
+                <input
+                  className='border  text-gray font-bold py-2 px-4 rounded w-full bg-white'
+                  type='text'
+                  list='Users'
+                  placeholder='Théodule Petiprez'
+                  onChange={(e: { target: { value: any } }) =>
+                    projectDispatch({
+                      type: 'CREATE_PROJECT',
+                      payloadCreate: e.target.value,
+                      payloadUser: dataUsers.getUsers.filter(
+                        (user: { firstname: any; id: any }) => user.firstname === e.target.value.split(' ')[0]
+                      ),
+                      payloadInput: 'owner',
+                    })
+                  }
+                />
+                <datalist id='Users'>
+                  {loadingUsers ? (
+                    <p>Loading..</p>
+                  ) : (
+                    dataUsers.getUsers.map((user: { firstname: string; lastname: string; id: Number }, i: number) => {
+                      return (
+                        <option key={i}>
+                          {user.firstname} {user.lastname}
+                        </option>
+                      )
+                    })
+                  )}
+                </datalist>
                 <div className='text-center'>
                   <button
                     className=' text-white shadow-lg font-bold py-2 px-4 rounded mt-5 mb-2 hover:bg-fontgray bg-lavender'
@@ -73,6 +104,7 @@ export const CreateProjects = () => {
                           description: create.description,
                           deadline: new Date(`${create.deadline}`).toISOString(),
                           createdAt,
+                          project_owner: create.project_owner,
                         },
                       })
                       create.name = ''

@@ -1,3 +1,16 @@
+.connect-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 5px 18px;
+  border-radius: 50px;
+  p {
+    font-family: $font-text;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+}
 .logo-nav {
   margin-left: 33px;
   margin-top: 25px;
@@ -14,7 +27,7 @@ nav {
 
       &.is-active {
         width: 145px;
-        background-color: #fde6a5;
+        background-color: $paleyellow;
         transition: all 400ms ease;
 
         a {
@@ -33,6 +46,7 @@ nav {
         p {
           display: none;
           font-size: 20px;
+          font-family: $font-text;
         }
 
         img {

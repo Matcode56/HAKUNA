@@ -7,13 +7,17 @@ require('dotenv').config()
 const { JWT_SECRET } = process.env
 
 export const Mutation = {
-  createProject: (parent: any, args: { description: string; name: string; deadline: string; createdAt: string }) => {
+  createProject: (
+    parent: any,
+    args: { description: string; name: string; deadline: string; createdAt: string; project_owner: any }
+  ) => {
     return prisma.projects.create({
       data: {
         description: args.description,
         name: args.name,
         deadline: args.deadline,
         createdAt: args.createdAt,
+        project_owner: args.project_owner,
       },
     })
   },
@@ -62,13 +66,12 @@ export const Mutation = {
 
   updateUser: async (
     parent: any,
-    args: { id: String; firstname: string; lastname: string; email: string; password: string; tel: number },
+    args: { id: string; firstname: string; lastname: string; email: string; password: string; tel: number },
     decodedToken: any
   ) => {
     const idUser = decodedToken.id
-    const idUserToUpdate = Number(args.id)
-    const roleUser = decodedToken.role
-    if (idUser !== idUserToUpdate && roleUser !== 'ADMIN') throw new Error('UPDATE FORBIDDEN')
+    const idUserToUpdate = args.id
+    if (idUser != idUserToUpdate) throw new Error(`You don't have the rights to modify this user.`)
 
     const user = await prisma.users.findUnique({ where: { id: Number(args.id) } })
     if (!user) throw new Error('id invalid')
@@ -79,8 +82,10 @@ export const Mutation = {
     const tel = args.tel ? args.tel : user.tel
 
     async function checkEmail(emailToCheck: string) {
-      const email = await prisma.users.findUnique({ where: { email: emailToCheck } })
-      if (email) throw new Error('email déja utilisé')
+      if (emailToCheck !== args.email) {
+        const email = await prisma.users.findUnique({ where: { email: emailToCheck } })
+        if (email) throw new Error('email déja utilisé')
+      }
       return args.email
     }
 
