@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from 'react'
 import { GET_PROJECTS } from '../../Graphql/Queries'
 import { DELETE_PROJECT } from '../../Graphql/Mutations'
 import { ProjectContext } from '../../hooks/projects/context'
-import { Project, Token } from '../../react-app-env'
 import decode from 'jwt-decode'
 
 export const ListOfProjects = () => {
@@ -52,7 +51,9 @@ export const ListOfProjects = () => {
     if (typeFilter === 'default') return sortByDateAndDisplay(sortBy, allProjects)
 
     if (typeFilter === 'managedByMe') {
-      const projectsFiltered = allProjects.filter((project: Project) => Number(project.project_owner.id) === idUser)
+      console.log(allProjects)
+
+      const projectsFiltered = allProjects.filter((project: any) => Number(project.project_owner.id) === idUser)
       return sortByDateAndDisplay(sortBy, projectsFiltered)
     }
 
@@ -99,7 +100,7 @@ export const ListOfProjects = () => {
           </div>
 
           {projectsDisplay &&
-            projectsDisplay.map((project: Project) => (
+            projectsDisplay.map((project: any) => (
               <div
                 className='flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative bg-paleyellow rounded-xl shadow-md pt-2 mt-2'
                 key={project.id}
@@ -205,3 +206,4 @@ const selectStyle = {
     }
   },
 }
+
