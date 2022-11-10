@@ -71,12 +71,13 @@ export const CreateProjects = () => {
                   list='Users'
                   placeholder='Théodule Petiprez'
                   onChange={(e: { target: { value: any } }) =>
+                    // projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadUser: dataUsers.getUsers.filter((user: { firstname: any; id: any }) => user.firstname === (e.target.value).split(' ')[0]), payloadInput: 'owner' })
                     projectDispatch({
                       type: 'CREATE_PROJECT',
                       payloadCreate: e.target.value,
                       payloadUser: dataUsers.getUsers.filter(
-                        (user: { firstname: any; id: any }) => user.firstname === e.target.value.split(' ')[0]
-                      ),
+                        (user: Users) => user.firstname === e.target.value.split(' ')[0]
+                      )[0].id,
                       payloadInput: 'owner',
                     })
                   }
@@ -104,12 +105,13 @@ export const CreateProjects = () => {
                           description: create.description,
                           deadline: new Date(`${create.deadline}`).toISOString(),
                           createdAt,
-                          project_owner: create.project_owner,
+                          owner_id: create.owner_id,
                         },
                       })
                       create.name = ''
                       create.description = ''
                       create.deadline = ''
+                      create.owner_id = 0
                       document.querySelector('.modal-create-project')?.classList.remove('is-active')
                     }}
                   >

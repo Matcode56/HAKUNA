@@ -1,11 +1,13 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { UPDATE_PROJECT } from "../../Graphql/Mutations";
 import { GET_PROJECTS } from "../../Graphql/Queries";
 import { ProjectContext } from "../../hooks/projects/context";
+import { GET_USERS } from "../../Graphql/Queries";
 
 export const UpdateProject = () => {
   const { projectState, projectDispatch } = useContext(ProjectContext)
+  const { data: dataUsers, error: errorUsers, loading: loadingUsers } = useQuery(GET_USERS)
   const [updateProject, { data, error, loading }] = useMutation(UPDATE_PROJECT, {
     refetchQueries: [
       {query: GET_PROJECTS},
@@ -67,15 +69,29 @@ export const UpdateProject = () => {
                   value={update.deadline} // value want onChange
                   onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'deadline'})}
                 />
-                <h1 className="text-black  text-2xl text-center font-title my-2">
-                  Project Owner
-                </h1>
+                <h1 className='text-black  text-2xl text-center font-title my-2'>Project Owner</h1>
                 <input
-                  className="border  text-gray font-bold py-2 px-4 rounded w-full bg-white"
-                  type="date"
-                  value={update.deadline} // value want onChange
-                  onChange={(e) => projectDispatch({type: 'UPDATE_PROJECT', payloadUpdate: e.target.value, payloadInput: 'deadline'})}
+                  className='border  text-gray font-bold py-2 px-4 rounded w-full bg-white'
+                  type='text'
+                  list='Users'
+                  placeholder='Théodule Petiprez'
+                  onChange={(e: { target: { value: any } }) =>
+                    projectDispatch({ type: 'UPDATE_PROJECT', payloadCreate: e.target.value, payloadUser: dataUsers.getUsers.filter((user: Users) => user.firstname === e.target.value.split(' ')[0] )[0].id, payloadInput: 'owner' })
+                  }
                 />
+                <datalist id='Users'>
+                  {loadingUsers ? (
+                    <p>Loading..</p>
+                  ) : (
+                    dataUsers.getUsers.map((user: { firstname: string; lastname: string; id: Number }, i: number) => {
+                      return (
+                        <option key={i}>
+                          {user.firstname} {user.lastname}
+                        </option>
+                      )
+                    })
+                  )}
+                </datalist>
                 <div className="text-center">
                 <button
                   className=" text-white shadow-lg font-bold py-2 px-4 rounded mt-5 mb-2 hover:bg-fontgray bg-lavender"
@@ -86,6 +102,7 @@ export const UpdateProject = () => {
                         description: update.description,
                         name: update.name,
                         deadline: new Date(`${update.deadline}`).toISOString(),
+                        owner_id: update.owner_id
                       }
                     })
                   }}

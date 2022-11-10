@@ -21,6 +21,7 @@ export const typeDefs = gql`
     Tasks: [Tasks]
     user_project: [user_project]
     project_owner: Users
+    owner_id: Int
   }
 
   type Tasks {
@@ -44,13 +45,23 @@ export const typeDefs = gql`
     lastname: String
     password: String
     email: String
-    tel: String
+    tel: Int
     roles: String
     Notifications: [Notifications]
     task_comments: [task_comments]
     user_project: [user_project]
     user_task: [user_task]
     owned_projects: [Projects]
+  }
+
+  input UserInput {
+    id: ID!
+    firstname: String
+    lastname: String
+    password: String
+    email: String
+    tel: Int
+    roles: String
   }
 
   type task_comments {
@@ -106,9 +117,15 @@ export const typeDefs = gql`
     getProject(id: String): Projects
     getProjects: [Projects]
     getProjectsUser(user_id: String): [Projects]
-    getUser(id: String): Users
     getUserByEmail(email: String): Users
+    getUser(id: String): Users
     getUsers: [Users]
+  }
+
+  input User {
+    id: ID
+    firstname: String
+    lastname: String
   }
 
   type Mutation {
