@@ -11,7 +11,10 @@ export const App = () => {
     if (token) {
       usersDispatch({ type: 'LOGIN', input: 'login' })
     } else {
-      document.location.href = '/'
+      /* 
+        TODO => change to react router dom
+      */
+      window.location.href = '/'
     }
   }, [])
 

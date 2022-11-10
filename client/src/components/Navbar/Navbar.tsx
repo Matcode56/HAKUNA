@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { UsersContext } from '../../hooks/users/context'
 import { Home, MultiplePages, TaskList, LogOut } from 'iconoir-react'
@@ -36,7 +36,7 @@ export const Navigation = () => {
                   navigate('/')
                 }}
               >
-                <p>{loading === false && data && data.getUser.firstname}</p>
+                <p>{!loading && data && data.getUser.firstname}</p>
                 <LogOut color={'white'} height={28} width={24} strokeWidth={2} />
               </button>
             ) : (

@@ -113,14 +113,6 @@ export const typeDefs = gql`
 
   type Mutation {
     createProject(createdAt: String, description: String, name: String, deadline: String): Projects!
-    createProjectNested(
-      id: String
-      createdAt: String
-      description: String
-      name: String
-      deadline: String
-      user_project: String
-    ): Projects!
     updateProject(id: String, description: String, name: String, deadline: String): Projects!
     deleteProject(id: String): Projects!
     createUser(firstname: String, lastname: String, password: String, email: String, tel: String): Users!
