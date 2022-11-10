@@ -9,7 +9,9 @@ const { JWT_SECRET } = process.env
 export const Mutation = {
   createProject: (
     parent: any,
-    args: { description: string; name: string; deadline: string; createdAt: string; project_owner: any }
+    args: {
+       description: string; name: string; deadline: string; createdAt: string; owner_id: any 
+}
   ) => {
     return prisma.projects.create({
       data: {
@@ -17,18 +19,19 @@ export const Mutation = {
         name: args.name,
         deadline: args.deadline,
         createdAt: args.createdAt,
-        project_owner: args.project_owner,
+        owner_id: args.owner_id,
       },
     })
   },
 
-  updateProject: (parent: any, args: { id: String; description: string; name: string; deadline: string }) => {
+  updateProject: (parent: any, args: { id: String; description: string; name: string; deadline: string; owner_id: number }) => {
     return prisma.projects.update({
       where: { id: Number(args.id) },
       data: {
         description: args.description !== null ? args.description : undefined,
         name: args.name !== null ? args.name : undefined,
         deadline: args.deadline !== null ? args.deadline : undefined,
+        owner_id: args.owner_id !== null ? args.owner_id : undefined
       },
     })
   },

@@ -34,7 +34,6 @@ export const ListOfProjects = () => {
 
   useEffect(() => {
     if (loading === false && data && baseData) {
-      console.log(data.getProjects)
       setBaseData(data.getProjects);
     }
     const sorted = [...baseData].sort((a, b) =>

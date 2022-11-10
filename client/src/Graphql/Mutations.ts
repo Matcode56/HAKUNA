@@ -10,32 +10,33 @@ export const CREATE_PROJECT = gql`
     $description: String!
     $deadline: String!
     $createdAt: String!
-    $project_owner: Users
+    $owner_id: Int!
   ) {
     createProject(
       name: $name
       description: $description
       deadline: $deadline
       createdAt: $createdAt
-      project_owner: $project_owner
+      owner_id: $owner_id
     ) {
       id
       name
       description
       deadline
       createdAt
-      project_owner
+      owner_id
     }
   }
 `
 
 export const UPDATE_PROJECT = gql`
-  mutation updateProject($updateProjectId: String!, $name: String!, $description: String!, $deadline: String!) {
-    updateProject(id: $updateProjectId, name: $name, description: $description, deadline: $deadline) {
+  mutation updateProject($updateProjectId: String!, $name: String!, $description: String!, $deadline: String!, $owner_id: Int) {
+    updateProject(id: $updateProjectId, name: $name, description: $description, deadline: $deadline, owner_id: $owner_id) {
       id
       name
       description
       deadline
+      owner_id
     }
   }
 `
