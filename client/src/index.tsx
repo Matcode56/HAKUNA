@@ -15,8 +15,6 @@ import { Login } from './components/Login/Login'
 import { Register } from './components/Register/Register'
 import { Profile } from './components/Profile/Profile'
 import { UsersProvider } from './hooks/users/context'
-import { ProtectedRoute } from './routes/ProtectedRoute'
-import decode from 'jwt-decode'
 import { ForgotPassword } from './components/ResetPassword/ForgotPassword'
 import { ResetPassword } from './components/ResetPassword/ResetPassword'
 

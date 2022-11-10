@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken'
 require('dotenv').config()
 const { JWT_SECRET } = process.env
 
-export const  checkToken = async (token: string) => {
+export const checkToken = async (token: string) => {
   try {
     if (token) {
       const tokenVERIFY = jwt.verify(token, JWT_SECRET)
@@ -17,7 +17,6 @@ export const  checkToken = async (token: string) => {
     }
     return null
   } catch (error) {
-    
     return error
   }
 }
@@ -35,7 +34,9 @@ const startApolloServer = async () => {
     csrfPrevention: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
-      const token = req.headers.authorization.split(' ')[1];
+      console.log('testtt')
+
+      const token = req.headers.authorization.split(' ')[1]
       const decodedToken = checkToken(token)
       return decodedToken
     },
