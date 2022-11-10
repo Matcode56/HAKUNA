@@ -11,6 +11,7 @@ export const GET_PROJECTS = gql`
       project_owner {
         firstname
         lastname
+        id
       }
     }
   }

@@ -1,3 +1,5 @@
+import { Project, ProjectAction } from '../../react-app-env'
+
 export const projectInitialState: Project[] = [
   {
     id: '',
@@ -15,11 +17,14 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
 
   switch (type) {
     case 'GET_ID':
-
-      projectState = payload.filter((el) => el.id === payloadId)
+      projectState = payload.filter(el => el.id === payloadId)
       let copyDeadlineFormat = { ...projectState[0] }
       /* Convert TimeStamp to Date and reverse to match input date format (yyyy-mm-dd) */
-      copyDeadlineFormat.deadline = new Date((projectState[0].deadline as number) * 1).toLocaleDateString().split('/').reverse().join('-')
+      copyDeadlineFormat.deadline = new Date((projectState[0].deadline as number) * 1)
+        .toLocaleDateString()
+        .split('/')
+        .reverse()
+        .join('-')
       projectState[0] = copyDeadlineFormat
 
       return [...projectState]
@@ -57,6 +62,7 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
         copyCreate.deadline = payloadCreate
       } else if (payloadInput === 'owner') {
         const Int = setInterval(() => {
+
             if(payloadUser !== undefined){
               console.log(payloadUser)
               copyCreate.owner_id = parseInt(payloadUser)
@@ -64,8 +70,6 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
           }
         }, 100)
       }
-
-
 
       projectState[0] = copyCreate
       return [...projectState]
