@@ -87,10 +87,10 @@ model projects {
   createdAt     DateTime        @db.DateTime(0)
   name          String          @db.VarChar(100)
   deadline      DateTime        @db.DateTime(0)
-  owner_id      Int
+  owner_id      Int 
   notifications notifications[]
   user_project  user_project[]
-  project_owner users           @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "project_owner")
+  project_owner users           @relation(fields: [owner_id], references: [id])
 }
 
 model tasks {
@@ -123,7 +123,7 @@ model users {
   task_comments  task_comments[]
   user_project   user_project[]
   user_task      user_task[]
-  owned_projects projects[]
+  projects projects[]
 
   @@index([project_id], map: "project_id_user")
 }

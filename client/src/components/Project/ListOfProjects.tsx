@@ -71,6 +71,7 @@ export const ListOfProjects = () => {
     }
   }
 
+
   return (
     <>
       {loading ? (
@@ -79,6 +80,7 @@ export const ListOfProjects = () => {
         <p>Error : {error?.message}</p>
       ) : (
         <div className='projects-list mx-auto w-full'>
+
           <div className='projectsDropdown'>
             <div className='sortDropdown'>
               <label htmlFor='sort'>Sort</label>
@@ -102,6 +104,7 @@ export const ListOfProjects = () => {
 
           {projectsDisplay &&
             projectsDisplay.map((project: Project) => (
+
               <div
                 className='flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative bg-paleyellow rounded-xl shadow-md pt-2 mt-2'
                 key={project.id}

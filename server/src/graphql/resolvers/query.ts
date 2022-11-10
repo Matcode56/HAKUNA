@@ -45,7 +45,14 @@ export const Query = {
     })
   },
 
-  getUserByEmail: (parents: any, args: { id: string }, decodedToken: any) => {
+  getUserByEmail: (
+    parents: any,
+    args: {
+      email: string
+      id: string
+    },
+    decodedToken: any
+  ) => {
     return prisma.users.findUnique({
       where: { email: args.email },
       select: {

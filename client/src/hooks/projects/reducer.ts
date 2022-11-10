@@ -7,8 +7,8 @@ export const projectInitialState: Project[] = [
     description: '',
     deadline: '',
     createdAt: '',
-    project_owner: {},
-    owner_name: '',
+    owner_id: 0,
+    owner_name: ''
   },
 ]
 
@@ -38,6 +38,14 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
         copyUpdate.description = payloadUpdate
       } else if (payloadInput === 'deadline') {
         copyUpdate.deadline = payloadUpdate
+      } else if (payloadInput === 'owner'){
+        const Int = setInterval(() => {
+          if(payloadUser !== undefined){
+            console.log(payloadUser)
+            copyUpdate.owner_id = parseInt(payloadUser)
+            clearInterval(Int)
+        }
+      }, 100)
       }
 
       projectState[0] = copyUpdate
@@ -53,11 +61,13 @@ export const projectsReducer = (projectState: Project[], action: ProjectAction):
       } else if (payloadInput === 'deadline') {
         copyCreate.deadline = payloadCreate
       } else if (payloadInput === 'owner') {
-        copyCreate.owner_name = payloadCreate
         const Int = setInterval(() => {
-          if (payloadUser[0] !== undefined) copyCreate.project_owner = payloadUser[0]
-          console.log(copyCreate.project_owner)
-          clearInterval(Int)
+
+            if(payloadUser !== undefined){
+              console.log(payloadUser)
+              copyCreate.owner_id = parseInt(payloadUser)
+              clearInterval(Int)
+          }
         }, 100)
       }
 

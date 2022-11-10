@@ -34,8 +34,6 @@ const startApolloServer = async () => {
     csrfPrevention: true,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
     context: ({ req }) => {
-      console.log('testtt')
-
       const token = req.headers.authorization.split(' ')[1]
       const decodedToken = checkToken(token)
       return decodedToken
@@ -45,12 +43,7 @@ const startApolloServer = async () => {
   await server.start()
 
   const corsOptions = {
-    origin: [
-      'http://localhost:5000',
-      'https://studio.apollographql.com',
-      'http://localhost:3000',
-      'http://localhost:5002',
-    ],
+    origin: '*',
     credentials: true,
   }
 

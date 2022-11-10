@@ -18,23 +18,6 @@ import { UsersProvider } from './hooks/users/context'
 import { ForgotPassword } from './components/ResetPassword/ForgotPassword'
 import { ResetPassword } from './components/ResetPassword/ResetPassword'
 
-// Attraper les erreurs de l'API GraphQL et les afficher dans la console
-
-// const errorLink = onError(({ graphQLErrors, networkError }) => {
-//   if (graphQLErrors)
-//     // cartographier les erreurs de l'API GraphQLst
-//     // pour chaque erreur on saisi le message, on cherche l'emplacement de l'erreur et on affiche le code de l'erreur
-//     graphQLErrors.map(({ message, locations, path }) =>
-//       console.log(
-//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-//       )
-//     );
-
-//   const link = from([
-//     errorLink,
-//     new HttpLink({ uri: "http://localhost:8080/graphql" }),
-//   ]);
-
 const httpLink = createHttpLink({
   uri: 'http://localhost:5001/graphql',
   credentials: 'same-origin',

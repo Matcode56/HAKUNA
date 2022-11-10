@@ -1,0 +1,327 @@
+#dashboard {
+  display: grid;
+  grid-template: 1fr / 85%;
+  justify-items: center;
+  justify-content: flex-end;
+  margin-right: 100px;
+  height: 100vh;
+
+  h1 {
+    font-family: $font-title;
+    font-size: 48px;
+    color: $fontgray;
+  }
+
+  main {
+    display: grid;
+    grid-template: 1fr / 1fr;
+    row-gap: 80px;
+    background-color: #fafafa;
+    height: 85vh;
+    width: 100%;
+    padding: 38px 55px 15px;
+    border-radius: 35px 35px 0 0;
+    box-shadow: 6px 10px 15px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: block;
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: $paleyellow;
+      margin-top: 30px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $lavender;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track-piece:end {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-track-piece:start {
+      background: transparent;
+    }
+
+    h2 {
+      font-family: $font-title;
+      color: $fontgray;
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: auto;
+      column-gap: 55px;
+      grid-area: 1 / 1 / 2 / 1;
+
+      &__summary {
+        grid-area: 1 / 1 / 1 / 1;
+        .content {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px;
+          padding: 35px 27px;
+          background-color: $paleyellow;
+          min-width: 305px;
+          width: 100%;
+          height: 410px;
+          border-radius: 35px;
+          box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+
+          & div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            width: 100%;
+            border-radius: 25px;
+
+            &:not(:last-of-type) {
+              color: #fafafa;
+            }
+
+            p {
+              font-family: $font-text;
+              font-size: 24px;
+            }
+            span {
+              font-family: $font-subtitle;
+              font-weight: 500;
+              font-size: 32px;
+            }
+          }
+
+          .projects {
+            background-color: $fontgray;
+          }
+          .tasks {
+            background-color: $lavender;
+          }
+          .completed {
+            background-color: #fafafa;
+          }
+        }
+      }
+      &__deadline {
+        grid-area: 1 / 2 / 1 / 2;
+
+        .content {
+          position: relative;
+          display: grid;
+          grid-template: 1fr / 1fr;
+          background-color: $lavender;
+          height: 410px;
+          width: 100%;
+          color: #fafafa;
+          border-radius: 35px;
+          padding: 35px 27px;
+          box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+
+          h3 {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: $font-subtitle;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            height: 90%;
+            width: 1px;
+            background: linear-gradient(to top, transparent 0, $fontgray 25%, $fontgray 75%, transparent 100%);
+            top: 50%;
+            right: 237px;
+            transform: translateY(-50%);
+          }
+
+          &__top {
+            display: grid;
+            grid-template-columns: 1fr 210px;
+            grid-area: 1 / 1 / 1 / 3;
+            .name {
+              grid-area: 1/1/1/1;
+              padding-right: 27px;
+
+              h3 {
+                margin-bottom: 60px;
+              }
+
+              .desc {
+                padding: 20px 30px;
+                font-family: $font-text;
+                font-size: 14px;
+                height: fit-content;
+                background: rgba(66, 66, 66, 0.6);
+                border: 2px solid #fafafa;
+                border-radius: 25px;
+              }
+            }
+            .team {
+              grid-area: 1/2/1/2;
+              padding-left: 17px;
+
+              h3 {
+                margin-bottom: 90px;
+              }
+
+              .img {
+                position: relative;
+                display: flex;
+                p {
+                  position: absolute;
+                  width: 74px;
+                  height: 74px;
+                  background-color: #c4c4c4;
+                  border: 2px solid white;
+                  border-radius: 50%;
+                  left: 0;
+
+                  &:nth-child(2) {
+                    left: 18%;
+                  }
+                  &:nth-child(3) {
+                    left: 43%;
+                  }
+                  &:nth-child(4) {
+                    left: 68%;
+                  }
+                }
+              }
+            }
+          }
+
+          &__bottom {
+            display: grid;
+            grid-template-columns: 1fr 210px;
+            grid-area: 2 / 1 / 2 / 2;
+            .percent {
+              grid-area: 2/1/2/1;
+              padding-right: 27px;
+            }
+            .comments {
+              display: flex;
+              align-items: flex-end;
+              grid-area: 2/2/2/2;
+              padding-left: 17px;
+
+              p {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      grid-area: 2 / 1 / 2 / 2;
+
+      &__project {
+        display: flex;
+        height: 130px;
+        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+
+        h3 {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          width: 220px;
+          background-color: $paleyellow;
+          color: $fontgray;
+          font-size: 24px;
+          font-weight: 700;
+          font-family: $font-subtitle;
+          border-radius: 25px 0 0 25px;
+
+          &::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 100%;
+            background-color: $paleyellow;
+            right: -45px;
+            top: 0;
+            z-index: 0;
+          }
+        }
+
+        .content {
+          display: flex;
+          justify-content: space-between;
+          column-gap: 40px;
+          padding: 20px;
+          width: calc(100% - 220px);
+          background-color: $lavender;
+          border-radius: 25px;
+          z-index: 1;
+
+          &__desc {
+            width: calc(100% - 290px);
+            font-size: 14px;
+          }
+          &__team {
+            position: relative;
+            display: grid;
+            align-content: center;
+            grid-template-columns: repeat(4, 1fr);
+            width: 190px;
+
+            p {
+              width: 44px;
+              height: 44px;
+              background-color: #c4c4c4;
+              border: 2px solid white;
+              border-radius: 50%;
+
+              &:nth-child(2) {
+                margin-left: -20px;
+              }
+              &:nth-child(3) {
+                margin-left: -40px;
+              }
+            }
+
+            span {
+              margin-left: -30px;
+              color: #fafafa;
+              font-size: 32px;
+              font-weight: 700;
+              font-family: $font-text;
+            }
+          }
+          button {
+            width: 100px;
+            height: 100px;
+            background: $paleyellow;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), inset 4px 4px 14px rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: $fontgray;
+            font-size: 24px;
+            font-weight: 600;
+            font-family: $font-text;
+            line-height: 1.1;
+          }
+        }
+      }
+    }
+  }
+}

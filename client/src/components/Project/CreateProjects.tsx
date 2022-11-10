@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { ReactChild, ReactFragment, ReactPortal, useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { CREATE_PROJECT } from '../../Graphql/Mutations'
 import { GET_PROJECTS } from '../../Graphql/Queries'
 import { GET_USERS } from '../../Graphql/Queries'
@@ -14,7 +14,6 @@ export const CreateProjects = () => {
   let yyyy = dateNow.getFullYear()
   let createdAt = new Date(`${yyyy}-${mm}-${dd}`).toISOString()
   const { data: dataUsers, error: errorUsers, loading: loadingUsers } = useQuery(GET_USERS)
-  console.log(dataUsers)
   const [createProject, { error, loading }] = useMutation(CREATE_PROJECT, {
     refetchQueries: [{ query: GET_PROJECTS }, 'getProjects'],
   })
@@ -77,12 +76,16 @@ export const CreateProjects = () => {
                   list='Users'
                   placeholder='Théodule Petiprez'
                   onChange={(e: { target: { value: any } }) =>
+
+                    // projectDispatch({ type: 'CREATE_PROJECT', payloadCreate: e.target.value, payloadUser: dataUsers.getUsers.filter((user: { firstname: any; id: any }) => user.firstname === (e.target.value).split(' ')[0]), payloadInput: 'owner' })
                     projectDispatch({
                       type: 'CREATE_PROJECT',
                       payloadCreate: e.target.value,
                       payloadUser: dataUsers.getUsers.filter(
+
                         (user: { firstname: any; id: any }) => user.firstname === e.target.value.split(' ')[0]
                       ),
+
                       payloadInput: 'owner',
                     })
                   }
@@ -91,9 +94,11 @@ export const CreateProjects = () => {
                   {loadingUsers ? (
                     <p>Loading..</p>
                   ) : (
-                    dataUsers.getUsers.map((user: { firstname: string; lastname: string; id: Number }) => {
+                    dataUsers.getUsers.map((user: { firstname: string; lastname: string; id: Number }, i: number) => {
                       return (
+
                         <option key={user.id.toString()}>
+
                           {user.firstname} {user.lastname}
                         </option>
                       )
@@ -110,12 +115,14 @@ export const CreateProjects = () => {
                           description: create.description,
                           deadline: new Date(`${create.deadline}`).toISOString(),
                           createdAt,
-                          project_owner: create.project_owner,
+
+                          owner_id: create.owner_id,
                         },
                       })
                       create.name = ''
                       create.description = ''
                       create.deadline = ''
+                      create.owner_id = 0
                       document.querySelector('.modal-create-project')?.classList.remove('is-active')
                     }}
                   >
